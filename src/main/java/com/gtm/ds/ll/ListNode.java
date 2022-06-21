@@ -11,4 +11,9 @@ public class ListNode {
         this.data = data;
         this.next = null;
     }
+
+	@Override
+	public String toString() {
+		return "ListNode [data=" + data + "]";
+	}
 }
