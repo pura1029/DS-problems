@@ -4,9 +4,13 @@ import java.util.HashMap;
 
 public class LinkedListTest {
 
-    ListNode head;
+    private ListNode head;
 
-    public ListNode nthNodeFromEnd(int nthNode) {
+    public ListNode getHead() {
+		return head;
+	}
+
+	public ListNode nthNodeFromEnd(int nthNode) {
         HashMap<Integer, ListNode> hashMap = new HashMap<>();
         ListNode temp = head;
         int pos = 1;
@@ -34,7 +38,10 @@ public class LinkedListTest {
     }
 
     public void print() {
-        ListNode temp = head;
+        print(this.getHead());
+    }
+    
+    public void print(ListNode temp) {
         while (temp != null) {
             System.out.print(temp.getData() + (temp.next != null ? "->" : ""));
             temp = temp.next;

@@ -41,7 +41,7 @@ public class GivenSumOfSubArray {
 			}
 
 			if (map.containsKey((currSum - sum))) {
-				start = map.get((currSum - sum)) + 1;
+				start = map.get((currSum - sum)) + 1; 
 				end = i;
 				break;
 			}

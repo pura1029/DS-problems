@@ -6,7 +6,7 @@ import java.util.Map;
 //https://www.geeksforgeeks.org/find-subarray-with-given-sum-in-array-of-integers/
 //https://leetcode.com/problems/contiguous-array/
 public class LargestSubArrayForZeroAndOne {
-	
+
 	static int subArraySum(int arr[]) {
 		int maxSize = 0;
 		for (int i = 0; i < arr.length; i++) {
