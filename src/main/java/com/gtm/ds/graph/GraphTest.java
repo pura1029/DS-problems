@@ -120,6 +120,36 @@ public class GraphTest {
 		}
 	}
 
+	public boolean isCycle(List<List<Integer>> adj, int vertex) {
+		boolean[] visited = new boolean[vertex + 1];
+		for (int v = 1; v <= vertex; v++) {
+			if (!visited[v]) {
+				if (dfsForCycle(adj, v, visited, -1)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean dfsForCycle(List<List<Integer>> adj, int v, boolean[] visited, int parent) {
+
+		visited[v] = true;
+
+		for (Integer neighbor : adj.get(v)) {
+			if (!visited[neighbor]) {
+				if (dfsForCycle(adj, neighbor, visited, v)) {
+					return true;
+				}
+			} else if (parent != neighbor) {
+				System.out.println("cycle b/w " + parent + " and " + neighbor);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public static void main(String[] args) {
 		List<List<Integer>> adj = new ArrayList<>();
 		int vertex = 8;
@@ -159,9 +189,10 @@ public class GraphTest {
 		// graphTest.noOfConnectedComponent(adj, vertex, visited));
 
 		System.out.println("DFS");
-
 		List<Integer> ans = graphTest.dfcForGraph(adj, vertex);
 		System.out.println(ans);
+
+		System.out.println("Cycle " + graphTest.isCycle(adj, vertex));
 	}
 
 }
