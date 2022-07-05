@@ -27,6 +27,7 @@ public class DeadLockTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("Main thread done");
 	}
 
 }
