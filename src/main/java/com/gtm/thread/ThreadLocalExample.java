@@ -4,11 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Random;
 
 public class ThreadLocalExample implements Runnable {
-	private static final ThreadLocal<SimpleDateFormat> formatter = ThreadLocal.<SimpleDateFormat>withInitial(
-			() -> {
-				return new SimpleDateFormat("yyyyMMdd HHmm");
-			}
-			);
+
+	// SimpleDateFormat is not thread-safe, so give one to each thread
+	private static final ThreadLocal<SimpleDateFormat> formatter = new ThreadLocal<SimpleDateFormat>(){
+		@Override
+		protected SimpleDateFormat initialValue()
+		{
+			return new SimpleDateFormat("yyyyMMdd HHmm");
+		}
+	};
 
 	public static void main(String[] args) throws InterruptedException {
 		ThreadLocalExample obj = new ThreadLocalExample();
@@ -32,5 +36,4 @@ public class ThreadLocalExample implements Runnable {
 
 		System.out.println("Thread Name= "+Thread.currentThread().getName()+" formatter = "+formatter.get().toPattern());
 	}
-
 }

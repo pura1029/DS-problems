@@ -1,0 +1,5 @@
+3
+Java2novice
+My Test line 123 Java world
+I know java language
+This is a test program java is simple
