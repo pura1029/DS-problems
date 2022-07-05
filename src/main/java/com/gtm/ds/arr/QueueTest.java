@@ -125,6 +125,64 @@ public class QueueTest {
 		}
 	}
 
+	private static class QueueLL {
+
+		static class Node {
+			int data;
+			Node next;
+
+			Node(int data) {
+				this.data = data;
+				this.next = null;
+			}
+		}
+
+		private Node head;
+		private Node tail;
+
+		public boolean isEmpty() {
+			return (head == null && tail == null);
+		}
+
+		// enqueue
+		public void add(int data) {
+			Node newNode = new Node(data);
+			if (tail == null) {
+				tail = newNode;
+				head = newNode;
+				return;
+			}
+
+			tail.next = newNode;
+			tail = newNode;
+		}
+
+		// dequeue
+		public int remove() {
+			if (isEmpty()) {
+				System.out.println("queue empty");
+				return -1;
+			}
+
+			int res = head.data;
+			if (head == tail) {
+				tail = null;
+			}
+			head = head.next;
+			return res;
+		}
+
+		// peek
+		public int peek() {
+			if (isEmpty()) {
+				System.out.println("queue empty");
+				return -1;
+			}
+
+			return head.data;
+		}
+	}
+
 	public static void main(String[] args) {
 		System.out.println("=========Queue Using Circular Array==========");
 
@@ -162,6 +220,25 @@ public class QueueTest {
 		while (!queue1.isEmpty()) {
 			System.out.println(queue1.peek());
 			queue1.remove();
+		}
+
+		System.out.println("=========Queue Using LL==========");
+
+		QueueLL queue2 = new QueueLL();
+
+		queue2.add(1);
+		queue2.add(2);
+		queue2.add(3);
+		queue2.add(4);
+		queue2.add(5);
+		System.out.println("remove :" + queue2.remove());
+		queue2.add(6);
+		System.out.println("remove :" + queue2.remove());
+		queue2.add(7);
+
+		while (!queue2.isEmpty()) {
+			System.out.println(queue2.peek());
+			queue2.remove();
 		}
 	}
 
