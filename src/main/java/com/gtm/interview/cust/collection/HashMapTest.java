@@ -2,7 +2,7 @@ package com.gtm.interview.cust.collection;
 
 import java.util.Arrays;
 
-public class HashMapTest<K,V> {
+public class HashMapTest<K, V> {
 
 	private int size;
 	private int DEFAULT_CAPACITY = 16;
@@ -10,19 +10,27 @@ public class HashMapTest<K,V> {
 	private MyEntry<K, V>[] table = new MyEntry[DEFAULT_CAPACITY];
 
 	public V put(K key, V value) {
-		int hash = hash(key);
+		int hash = (key == null) ? 0 : hash(key);
 		int i = indexFor(hash, table.length);
-		for (MyEntry<K,V> e = table[i]; e != null; e = e.next) {
-			Object k;
-			if (((k = e.key) == key || key.equals(k))) {
-				V oldValue = e.value;
-				e.value = value;
-				return oldValue;
+		MyEntry<K, V> add = new MyEntry<>(key, value, null);
+		if (table[i] == null) {
+			table[i] = add;
+		} else {
+			MyEntry<K, V> curr = table[i];
+			while (null != curr) {
+				if (curr.key.equals(key)) {
+					V oldValue = curr.value;
+					curr.value = value;
+					return oldValue;
+				} else {
+					if (curr.next == null) {
+						curr.next = add;
+						return null;
+					}
+					curr = curr.next;
+				}
 			}
 		}
-		ensureCapa();
-		MyEntry<K,V> e = table[i];
-		table[i] = new MyEntry<>(key, value, e);
 		size++;
 		return null;
 	}
@@ -30,7 +38,7 @@ public class HashMapTest<K,V> {
 	public V get(Object key) {
 		int hash = (key == null) ? 0 : hash(key);
 		int i = indexFor(hash, table.length);
-		for (MyEntry<K,V> e = table[i]; e != null; e = e.next) {
+		for (MyEntry<K, V> e = table[i]; e != null; e = e.next) {
 			Object k;
 			if (((k = e.key) == key || key.equals(k))) {
 				return e.value;
@@ -42,14 +50,14 @@ public class HashMapTest<K,V> {
 	public V remove(Object key) {
 		int hash = (key == null) ? 0 : hash(key);
 		int i = indexFor(hash, table.length);
-		MyEntry<K,V> e = table[i];
-		MyEntry<K,V> prev = e;
-		while (e!=null) {
-			MyEntry<K,V> next = e.getNext();
+		MyEntry<K, V> e = table[i];
+		MyEntry<K, V> prev = e;
+		while (e != null) {
+			MyEntry<K, V> next = e.getNext();
 			Object k;
 			if (((k = e.key) == key || key.equals(k))) {
 				size--;
-				if (prev == e)
+				if (prev == e) //first node to remove
 					table[i] = next;
 				else
 					prev.next = next;
@@ -74,7 +82,7 @@ public class HashMapTest<K,V> {
 	}
 
 	final int indexFor(int h, int length) {
-		return h & (length-1);
+		return h & (length - 1);
 	}
 
 	private void ensureCapa() {
@@ -88,6 +96,7 @@ public class HashMapTest<K,V> {
 		// TODO Auto-generated method stub
 		return size;
 	}
+
 	public static void main(String[] args) {
 
 		HashMapTest<String, String> map = new HashMapTest<>();
@@ -105,18 +114,22 @@ public class HashMapTest<K,V> {
 		private final K key;
 		private V value;
 		private MyEntry<K, V> next;
-		public MyEntry(K key, V value,MyEntry<K, V> next) {
+
+		public MyEntry(K key, V value, MyEntry<K, V> next) {
 			super();
 			this.key = key;
 			this.value = value;
 			this.next = next;
 		}
+
 		public V getValue() {
 			return value;
 		}
+
 		public void setValue(V value) {
 			this.value = value;
 		}
+
 		public K getKey() {
 			return key;
 		}
@@ -124,9 +137,11 @@ public class HashMapTest<K,V> {
 		public MyEntry<K, V> getNext() {
 			return next;
 		}
+
 		public void setNext(MyEntry<K, V> next) {
 			this.next = next;
 		}
+
 		@Override
 		public String toString() {
 			return "MyEntry [key=" + key + ", value=" + value + "]";
