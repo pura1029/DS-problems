@@ -1,7 +1,10 @@
 package com.gtm.ds.tree;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class BinarySearchTree {
 
@@ -148,17 +151,55 @@ public class BinarySearchTree {
 		path.remove(path.size() - 1);
 	}
 
-	private void printPath(List<Integer> path) {
-		for (int i = 0; i < path.size(); i++) {
-			System.out.print(path.get(i));
-			if ((i + 1) < path.size()) {
+	private void printPath(Collection<Integer> path) {
+		Iterator<Integer> iterator = path.iterator();
+		while (iterator.hasNext()) {
+			System.out.print(iterator.next());
+			if (iterator.hasNext()) {
 				System.out.print("->");
 			}
 		}
 		System.out.println();
 	}
 
+	public void printLeftView(TreeNode root) {
+		Map<Integer, Integer> map = new HashMap<>();
+
+		printLeftViewUtil(root, map, 1);
+
+		printPath(map.values());
+	}
+
+	private void printLeftViewUtil(TreeNode root, Map<Integer, Integer> map, int level) {
+		if (root == null) {
+			return;
+		}
+
+		map.putIfAbsent(level, root.data);
+		printLeftViewUtil(root.left, map, level + 1);
+		printLeftViewUtil(root.right, map, level + 1);
+	}
+
+	public void printRightView(TreeNode root) {
+		Map<Integer, Integer> map = new HashMap<>();
+
+		printRightViewUtil(root, map, 1);
+
+		printPath(map.values());
+	}
+
+	private void printRightViewUtil(TreeNode root, Map<Integer, Integer> map, int level) {
+		if (root == null) {
+			return;
+		}
+
+		map.put(level, root.data);
+		printRightViewUtil(root.left, map, level + 1);
+		printRightViewUtil(root.right, map, level + 1);
+	}
+
 	public static void main(String[] args) {
+		
 		int[] nodes = { 5, 1, 3, 4, 2, 7 };
 
 		BinarySearchTree searchTree = new BinarySearchTree();
@@ -173,7 +214,10 @@ public class BinarySearchTree {
 		// System.out.println();
 		// searchTree.printInRange(root, 1, 5);
 
-		searchTree.printRoot2Leaf(root, new ArrayList<>());
+		// searchTree.printRoot2Leaf(root, new ArrayList<>());
+
+		searchTree.printLeftView(root);
+		searchTree.printRightView(root);
 	}
 
 }
