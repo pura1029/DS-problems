@@ -199,7 +199,7 @@ public class BinarySearchTree {
 	}
 
 	public static void main(String[] args) {
-		
+
 		int[] nodes = { 5, 1, 3, 4, 2, 7 };
 
 		BinarySearchTree searchTree = new BinarySearchTree();
