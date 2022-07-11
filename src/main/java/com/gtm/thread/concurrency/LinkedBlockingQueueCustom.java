@@ -3,32 +3,31 @@ package com.gtm.thread.concurrency;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LinkedBlockingQueueCustom<Type> implements BlockingQueueCustom<Type> {
+public class LinkedBlockingQueueCustom<T> implements BlockingQueueCustom<T> {
 
-	private List<Type> queue;
-	private int  maxSize ; //maximum number of elements queue can hold at a time.
+	private volatile List<T> queue;
+	private int maxSize; // maximum number of elements queue can hold at a time.
 
-	public LinkedBlockingQueueCustom(){
-		this.maxSize = Integer.MAX_VALUE;
-		queue = new LinkedList<Type>();
+	public LinkedBlockingQueueCustom() {
+		this(Integer.MAX_VALUE);
 	}
-	public LinkedBlockingQueueCustom(int maxSize){
+
+	public LinkedBlockingQueueCustom(int maxSize) {
 		this.maxSize = maxSize;
-		queue = new LinkedList<Type>();
+		this.queue = new LinkedList<>();
 	}
-
 
 	/**
-	 * Inserts the specified element into this queue
-	 * only if space is available else
-	 * waits for space to become available.
-	 * After inserting element it notifies all waiting threads.
+	 * Inserts the specified element into this queue only if space is available else
+	 * waits for space to become available. After inserting element it notifies all
+	 * waiting threads.
 	 */
 
 	@Override
-	public synchronized void put(Type item) throws InterruptedException {
-		if(queue.size() == maxSize)
+	public synchronized void put(T item) throws InterruptedException {
+		while (queue.size() == maxSize) {
 			wait();
+		}
 
 		queue.add(item);
 		this.notifyAll();
@@ -36,15 +35,15 @@ public class LinkedBlockingQueueCustom<Type> implements BlockingQueueCustom<Type
 	}
 
 	/**
-	 * Retrieves and removes the head of this queue
-	 * only if elements are available else
-	 * waits for element to become available.
-	 * After removing element it notifies all waiting threads.
+	 * Retrieves and removes the head of this queue only if elements are available
+	 * else waits for element to become available. After removing element it
+	 * notifies all waiting threads.
 	 */
 	@Override
-	public synchronized  Type take() throws InterruptedException {
-		if(queue.size() == 0)
+	public synchronized T take() throws InterruptedException {
+		while (queue.isEmpty()) {
 			wait();
+		}
 
 		this.notifyAll();
 		return queue.remove(0);

@@ -1,13 +1,13 @@
 package com.gtm.thread.concurrency;
 
-public interface BlockingQueueCustom<Type> {
+public interface BlockingQueueCustom<T> {
 
 	/**
 	 * Inserts the specified element into this queue
 	 * only if space is available else
 	 * waits for space to become available.
 	 */
-	void put(Type item)  throws InterruptedException ;
+	void put(T item)  throws InterruptedException ;
 
 
 	/**
@@ -15,7 +15,7 @@ public interface BlockingQueueCustom<Type> {
 	 * only if elements are available else
 	 * waits for element to become available.
 	 */
-	Type take()  throws InterruptedException;
+	T take()  throws InterruptedException;
 
 	/**
 	 * Returns size of queue.
