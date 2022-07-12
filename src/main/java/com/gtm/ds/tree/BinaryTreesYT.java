@@ -50,6 +50,9 @@ public class BinaryTreesYT {
 
 		// System.out.println(tree.diameter(root).diam);
 
+		tree.diameter2(root);
+		System.out.println(tree.ans);
+
 		TreeNode subTree = new TreeNode(2);
 		subTree.left = new TreeNode(4);
 		subTree.right = new TreeNode(5);
@@ -259,6 +262,22 @@ class BinaryTree {
 		int diam3 = this.height(root.left) + this.height(root.right) + 1;
 
 		return Math.max(diam3, Math.max(diam1, diam2));
+
+	}
+
+	int ans = 0;
+
+	public int diameter2(TreeNode root) {
+
+		if (root == null) {
+			return 0;
+		}
+
+		int diam1 = diameter2(root.left);
+		int diam2 = diameter2(root.right);
+		ans = Math.max(ans, (1 + diam1 + diam2));
+
+		return (Math.max(diam1, diam2) + 1);
 
 	}
 

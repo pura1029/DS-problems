@@ -1,5 +1,6 @@
 package com.gtm.ds.tree;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -147,7 +148,7 @@ public class BinarySearchTree {
 			printRoot2Leaf(root.left, path);
 			printRoot2Leaf(root.right, path);
 		}
-
+		//back tracking(reach to leaf node remove current rooted node)
 		path.remove(path.size() - 1);
 	}
 
@@ -198,6 +199,84 @@ public class BinarySearchTree {
 		printRightViewUtil(root.right, map, level + 1);
 	}
 
+	public void printPathBw2Nodes(TreeNode root, int node1, int node2) {
+		List<Integer> path1 = new ArrayList<>();
+		List<Integer> path2 = new ArrayList<>();
+
+		if (!findPath4Node(root, node1, path1)) {
+			System.out.println("Node1 not found " + node1);
+			return;
+		}
+		if (!findPath4Node(root, node2, path2)) {
+			System.out.println("Node2 not found " + node2);
+			return;
+		}
+		int intersection = -1;
+		int i;
+		for (i = 0; i < path1.size() && i < path2.size(); i++) {
+
+			if (!path1.get(i).equals(path2.get(i))) {
+				intersection = i - 1;
+				break;
+			}
+
+		}
+		System.out.print("Path b/w nodes " + node1 + " and " + node2 + ": ");
+		for (i = path1.size() - 1; i > intersection; i--) {
+			System.out.print(path1.get(i) + " ");
+		}
+
+		for (i = intersection; i < path2.size(); i++) {
+			System.out.print(path2.get(i) + " ");
+		}
+
+		System.out.println();
+	}
+
+	private boolean findPath4Node(TreeNode root, int node, List<Integer> path) {
+
+		if (root == null) {
+			return false;
+		}
+		path.add(root.data);
+		if (root.data == node) {
+			return true;
+		}
+		if (findPath4Node(root.left, node, path) || findPath4Node(root.right, node, path)) {
+			return true;
+		}
+		// If not present in subtree rooted with root, remove root from
+		// path[] and return false
+		path.remove(path.size() - 1);
+		return false;
+	}
+
+	// https://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/
+	//https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+	public int findLCA(TreeNode root, int node1, int node2) {
+		List<Integer> path1 = new ArrayList<>();
+		List<Integer> path2 = new ArrayList<>();
+
+		if (!findPath4Node(root, node1, path1)) {
+			System.out.println("Node1 not found " + node1);
+			return -1;
+		}
+		if (!findPath4Node(root, node2, path2)) {
+			System.out.println("Node2 not found " + node2);
+			return -1;
+		}
+		int i;
+		for (i = 0; i < path1.size() && i < path2.size(); i++) {
+
+			if (!path1.get(i).equals(path2.get(i))) {
+				break;
+			}
+
+		}
+
+		return path1.get(i - 1);
+	}
+
 	public static void main(String[] args) {
 
 		int[] nodes = { 5, 1, 3, 4, 2, 7 };
@@ -216,8 +295,12 @@ public class BinarySearchTree {
 
 		// searchTree.printRoot2Leaf(root, new ArrayList<>());
 
-		searchTree.printLeftView(root);
-		searchTree.printRightView(root);
+		// searchTree.printLeftView(root);
+		// searchTree.printRightView(root);
+
+		searchTree.printPathBw2Nodes(root, 3, 7);
+
+		System.out.println("LCA " + searchTree.findLCA(root, 3, 7));
 	}
 
 }
