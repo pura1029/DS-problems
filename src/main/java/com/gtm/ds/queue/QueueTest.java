@@ -1,6 +1,6 @@
 package com.gtm.ds.queue;
 
-import java.util.Stack;
+import com.gtm.ds.stack.MyStack;
 
 public class QueueTest {
 
@@ -193,12 +193,12 @@ public class QueueTest {
 
 	static class QueueUsing2Stacks {
 
-		private Stack<Integer> stack1;
-		private Stack<Integer> stack2;
+		private MyStack<Integer> stack1;
+		private MyStack<Integer> stack2;
 
 		QueueUsing2Stacks() {
-			this.stack1 = new Stack<>();
-			this.stack2 = new Stack<>();
+			this.stack1 = new MyStack<>();
+			this.stack2 = new MyStack<>();
 		}
 
 		public boolean isEmpty() {

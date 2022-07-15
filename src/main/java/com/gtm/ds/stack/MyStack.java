@@ -1,7 +1,7 @@
 package com.gtm.ds.stack;
 
-public class MyStack {
-	Node head;
+public class MyStack<T> {
+	Node<T> head;
 	int size;
 
 	public MyStack() {
@@ -9,16 +9,16 @@ public class MyStack {
 		size = 0;
 	}
 
-	public int push(int data) {
+	public T push(T data) {
 
-		Node newNode = new Node(data);
+		Node<T> newNode = new Node<>(data);
 		newNode.next = head;
 		head = newNode;
 		size++;
 		return data;
 	}
 
-	public int peek() {
+	public T peek() {
 		if (head == null) {
 			throw new IllegalStateException("Stack empty");
 		}
@@ -26,12 +26,12 @@ public class MyStack {
 		return head.data;
 	}
 
-	public int pop() {
+	public T pop() {
 		if (head == null) {
 			throw new IllegalStateException("Stack empty");
 		}
 
-		int res = head.data;
+		T res = head.data;
 		head = head.next;
 		size--;
 		return res;
@@ -44,38 +44,37 @@ public class MyStack {
 	public int size() {
 		return size;
 	}
-	
+
 	public void print() {
-		Node temp=head;
+		Node<T> temp = head;
 		while (temp != null) {
 			System.out.print(temp.data);
 			temp = temp.next;
-			if(temp != null) {
+			if (temp != null) {
 				System.out.print(",");
 			}
 		}
 		System.out.println();
 	}
 
-	class Node {
-		int data;
-		Node next;
+	private static class Node<T> {
+		T data;
+		Node<T> next;
 
-		Node(int data) {
+		Node(T data) {
 			this.data = data;
+			this.next = null;
 		}
 	}
 
 	public static void main(String[] args) {
-		MyStack stack = new MyStack();
+		MyStack<Integer> stack = new MyStack<>();
 		stack.push(1);
 		stack.push(2);
 		stack.push(3);
 		System.out.println(stack.peek());
 		stack.pop();
 		stack.print();
-		
-		
 
 	}
 

@@ -1,6 +1,6 @@
-package com.gtm.ds.arr;
+package com.gtm.ds.queue;
 
-public class QueueTest {
+public class QueueTestOld {
 
 	private static class Queue {
 		private int[] arr;
