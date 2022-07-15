@@ -1,14 +1,14 @@
 package com.gtm.thread;
 
-public class OddEvenRunnable implements Runnable{
+public class OddEvenRunnable implements Runnable {
 
-	public int PRINT_NUMBERS_UPTO=10;
-	static int  number=1;
+	public int PRINT_NUMBERS_UPTO = 10;
+	static int number = 1;
 	int remainder;
 	static Object lock = new Object();
 
-	OddEvenRunnable(int remainder){
-		this.remainder=remainder;
+	OddEvenRunnable(int remainder) {
+		this.remainder = remainder;
 	}
 
 	@Override
@@ -31,11 +31,11 @@ public class OddEvenRunnable implements Runnable{
 	}
 
 	public static void main(String[] args) {
-		OddEvenRunnable oddRunnable=new OddEvenRunnable(1);
-		OddEvenRunnable evenRunnable=new OddEvenRunnable(0);
+		OddEvenRunnable oddRunnable = new OddEvenRunnable(1);
+		OddEvenRunnable evenRunnable = new OddEvenRunnable(0);
 
-		Thread t1=new Thread(oddRunnable,"Odd ");
-		Thread t2=new Thread(evenRunnable,"Even");
+		Thread t1 = new Thread(oddRunnable, "Odd ");
+		Thread t2 = new Thread(evenRunnable, "Even");
 
 		t1.start();
 		t2.start();
@@ -49,6 +49,5 @@ public class OddEvenRunnable implements Runnable{
 		}
 
 	}
-
 
 }
