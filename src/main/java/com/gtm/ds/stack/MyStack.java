@@ -1,8 +1,8 @@
 package com.gtm.ds.stack;
 
 public class MyStack<T> {
-	Node<T> head;
-	int size;
+	private Node<T> head;
+	private int size;
 
 	public MyStack() {
 		head = null;
