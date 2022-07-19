@@ -58,9 +58,9 @@ public class ThreeSum {
 
 	public static void main(String[] args) {
 		ThreeSum threeSum = new ThreeSum();
-		// int[] arr = { 1, 4, 45, 6, 10, 8 };
-		int arr[] = { 0, -1, 2, -3, 1 };
-		int sum = 0;
+		int[] arr = { 1, 4, 45, 6, 10, 8 };
+		// int arr[] = { 0, -1, 2, -3, 1 };
+		int sum = 22;
 		threeSum.find3Numbers(arr, sum);
 
 		System.out.println(threeSum(arr, sum));
