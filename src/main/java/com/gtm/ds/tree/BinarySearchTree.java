@@ -148,7 +148,7 @@ public class BinarySearchTree {
 			printRoot2Leaf(root.left, path);
 			printRoot2Leaf(root.right, path);
 		}
-		//back tracking(reach to leaf node remove current rooted node)
+		// back tracking(reach to leaf node remove current rooted node)
 		path.remove(path.size() - 1);
 	}
 
@@ -252,7 +252,7 @@ public class BinarySearchTree {
 	}
 
 	// https://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/
-	//https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+	// https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
 	public int findLCA(TreeNode root, int node1, int node2) {
 		List<Integer> path1 = new ArrayList<>();
 		List<Integer> path2 = new ArrayList<>();
@@ -277,6 +277,82 @@ public class BinarySearchTree {
 		return path1.get(i - 1);
 	}
 
+	public boolean isValidBST1(TreeNode root) {
+		if (root == null) {
+			return true;
+		}
+
+		int lMax = getMax(root.left);
+
+		int rMin = getMin(root.right);
+
+		if (lMax < root.data && rMin > root.data) {
+			return (isValidBST(root.left) && isValidBST(root.right));
+		}
+
+		return false;
+	}
+
+	private int getMin(TreeNode root) {
+		if (root == null) {
+			return Integer.MAX_VALUE;
+		}
+		int res = root.data;
+
+		int lMin = getMin(root.left);
+		int rMin = getMin(root.right);
+
+		return Math.min(Math.min(lMin, res), rMin);
+	}
+
+	private int getMax(TreeNode root) {
+		if (root == null) {
+			return Integer.MIN_VALUE;
+		}
+
+		int res = root.data;
+		int lMax = getMax(root.left);
+		int rMax = getMax(root.right);
+
+		return Math.max(Math.max(lMax, res), rMax);
+	}
+
+	public boolean isValidBST2(TreeNode root) {
+		return isValidBSTUtil(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+
+	private boolean isValidBSTUtil(TreeNode root, int min, int max) {
+		if (root == null) {
+			return true;
+		}
+
+		if (root.data < min || root.data > max) {
+			return false;
+		}
+
+		return (isValidBSTUtil(root.left, min, root.data - 1) && isValidBSTUtil(root.right, root.data + 1, max));
+	}
+
+	TreeNode prev = null;
+
+	public boolean isValidBST(TreeNode root) {
+		if (root == null) {
+			return true;
+		}
+
+		if (!isValidBST(root.left)) {
+			return false;
+		}
+
+		if (prev != null && root.data <= prev.data) {
+			return false;
+		}
+		prev = root;
+
+		return isValidBST(root.right);
+
+	}
+
 	public static void main(String[] args) {
 
 		int[] nodes = { 5, 1, 3, 4, 2, 7 };
@@ -298,9 +374,11 @@ public class BinarySearchTree {
 		// searchTree.printLeftView(root);
 		// searchTree.printRightView(root);
 
-		searchTree.printPathBw2Nodes(root, 3, 7);
+		// searchTree.printPathBw2Nodes(root, 3, 7);
 
-		System.out.println("LCA " + searchTree.findLCA(root, 3, 7));
+		// System.out.println("LCA " + searchTree.findLCA(root, 3, 7));
+
+		System.out.println(searchTree.isValidBST(root));
 	}
 
 }
