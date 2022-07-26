@@ -253,7 +253,7 @@ public class BinarySearchTree {
 
 	// https://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/
 	// https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
-	public int findLCA(TreeNode root, int node1, int node2) {
+	public int findLCA1(TreeNode root, int node1, int node2) {
 		List<Integer> path1 = new ArrayList<>();
 		List<Integer> path2 = new ArrayList<>();
 
@@ -275,6 +275,24 @@ public class BinarySearchTree {
 		}
 
 		return path1.get(i - 1);
+	}
+
+	public int findLCA(TreeNode root, int node1, int node2) {
+		return findLCAUtil(root, node1, node2).data;
+	}
+
+	public TreeNode findLCAUtil(TreeNode root, int node1, int node2) {
+		if (root == null || root.data == node1 || root.data == node2) {
+			return root;
+		}
+
+		TreeNode left = findLCAUtil(root.left, node1, node2);
+		TreeNode right = findLCAUtil(root.right, node1, node2);
+
+		if (left != null && right != null) {
+			return root;
+		}
+		return left != null ? left : right;
 	}
 
 	public boolean isValidBST1(TreeNode root) {
@@ -376,9 +394,9 @@ public class BinarySearchTree {
 
 		// searchTree.printPathBw2Nodes(root, 3, 7);
 
-		// System.out.println("LCA " + searchTree.findLCA(root, 3, 7));
+		System.out.println("LCA " + searchTree.findLCA(root, 3, 7));
 
-		System.out.println(searchTree.isValidBST(root));
+		//System.out.println(searchTree.isValidBST(root));
 	}
 
 }

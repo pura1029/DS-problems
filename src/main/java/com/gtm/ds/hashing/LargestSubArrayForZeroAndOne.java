@@ -37,17 +37,13 @@ public class LargestSubArrayForZeroAndOne {
 			if (currSum == 0) {
 				start = 0;
 				end = i;
-				if ((end - start + 1) > maxSize) {
-					maxSize = (end - start + 1);
-				}
+				maxSize = Math.max(maxSize, (end - start + 1));
 			}
 
 			if (map.containsKey((currSum))) {
 				start = map.get((currSum)) + 1;
 				end = i;
-				if ((end - start + 1) > maxSize) {
-					maxSize = (end - start + 1);
-				}
+				maxSize = Math.max(maxSize, (end - start + 1));
 			} else {
 				map.put(currSum, i);
 			}

@@ -76,7 +76,7 @@ public class GivenSumOfSubArray {
 		// int[] arr = { 10, 2, -2, -20, 10 };
 		int[] arr = { 10, 15, -5, -10, 15 };// 10-0, 25-1, 20-2,10-3,25-4
 		int sum = 5;
-		int[] res = subArraySum(arr, sum);
+		int[] res = subArraySumHash(arr, sum);
 		if (res[1] == -1) {
 			System.out.println("Not found");
 		} else {

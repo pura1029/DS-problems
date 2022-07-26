@@ -8,6 +8,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The union of two arrays will contain all the elements of the two arrays, the
+ * common elements will appear only once instead of twice. <br/> The intersection of
+ * the two arrays will contain the common elements of the two arrays.
+ * 
+ * @author kumargautam
+ *
+ */
 public class IntersectionTwoArra {
 
 	static int union(int[] a, int[] b) {
