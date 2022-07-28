@@ -3,6 +3,7 @@ package com.gtm.ds.graph;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class GraphTest {
@@ -150,6 +151,132 @@ public class GraphTest {
 		return false;
 	}
 
+	static class Pair implements Comparable<Pair> {
+		int wt;
+		int v;
+
+		public Pair(int wt, int v) {
+			this.wt = wt;
+			this.v = v;
+		}
+
+		@Override
+		public int compareTo(Pair o) {
+			return this.wt - o.wt;
+		}
+
+	}
+
+	public void dijkstra(List<List<Integer>> adj, int vertex, int startVertex) {
+		boolean[] visited = new boolean[vertex + 1];
+		int[] predecessor = new int[vertex + 1];
+		int[] dist = new int[vertex + 1];
+		for (int i = 0; i <= vertex; i++) {
+			visited[i] = false;
+			dist[i] = Integer.MAX_VALUE;
+			predecessor[i] = -1;
+		}
+
+		PriorityQueue<Pair> priorityQueue = new PriorityQueue<>();
+		priorityQueue.add(new Pair(0, startVertex));
+		dist[startVertex] = 0;
+		while (!priorityQueue.isEmpty()) {
+			Pair curr = priorityQueue.remove();
+			int u = curr.v;
+			if (visited[u]) {
+				continue;
+			}
+
+			visited[u] = true;
+			List<Integer> neighborsList = adj.get(u);
+
+			for (Integer neighbor : neighborsList) {
+				int wt = neighbor * 2 - u; // weight is not available in graph, if available use same
+				if (dist[neighbor] > dist[u] + wt) {
+					predecessor[neighbor] = u;
+					dist[neighbor] = dist[u] + wt;
+					priorityQueue.add(new Pair(dist[neighbor], neighbor));
+				}
+
+			}
+		}
+		printSolution(startVertex, dist, predecessor);
+
+	}
+
+	private void printSolution(int startVertex, int[] dist, int[] predecessor) {
+		int nVertices = dist.length;
+		System.out.print("Vertex\t Distance\tPath");
+
+		for (int vertexIndex = 1; vertexIndex < nVertices; vertexIndex++) {
+			if (vertexIndex != startVertex) {
+				System.out.print("\n" + startVertex + " -> ");
+				System.out.print(vertexIndex + " \t\t ");
+				System.out.print(dist[vertexIndex] + "\t\t");
+				printPath(vertexIndex, predecessor);
+			}
+		}
+
+	}
+
+	private void printPath(int currentVertex, int[] predecessor) {
+		// Base case : Source node has
+		// been processed
+		if (currentVertex == -1) {
+			return;
+		}
+		printPath(predecessor[currentVertex], predecessor);
+		System.out.print(currentVertex + " ");
+
+	}
+
+	public void countShortestPath(List<List<Integer>> adj, int vertex, int source, int dest) {
+		boolean[] visited = new boolean[vertex + 1];
+		int[] predecessor = new int[vertex + 1];
+		int[] dist = new int[vertex + 1];
+		for (int i = 0; i <= vertex; i++) {
+			visited[i] = false;
+			dist[i] = Integer.MAX_VALUE;
+			predecessor[i] = -1;
+		}
+
+		PriorityQueue<Pair> priorityQueue = new PriorityQueue<>();
+		priorityQueue.add(new Pair(0, source));
+		dist[source] = 0;
+		while (!priorityQueue.isEmpty()) {
+			Pair curr = priorityQueue.remove();
+			int u = curr.v;
+			if (u == dest) {
+				printShortestPath(source, dest, dist, predecessor);
+			}
+			if (visited[u]) {
+				continue;
+			}
+
+			visited[u] = true;
+			List<Integer> neighborsList = adj.get(u);
+
+			for (Integer neighbor : neighborsList) {
+				int wt = neighbor * 2 - u; // weight is not available in graph, if available use same
+				if (dist[neighbor] > dist[u] + wt) {
+					predecessor[neighbor] = u;
+					dist[neighbor] = dist[u] + wt;
+					priorityQueue.add(new Pair(dist[neighbor], neighbor));
+				}
+
+			}
+		}
+
+	}
+
+	private void printShortestPath(int source, int dest, int[] dist, int[] predecessor) {
+		System.out.print("Vertex\t Distance\tPath");
+		System.out.print("\n" + source + " -> ");
+		System.out.print(dest + " \t\t ");
+		System.out.print(dist[dest] + "\t\t");
+		printPath(dest, predecessor);
+	}
+
 	public static void main(String[] args) {
 		List<List<Integer>> adj = new ArrayList<>();
 		int vertex = 8;
@@ -188,11 +315,15 @@ public class GraphTest {
 		// System.out.println("No of connected components :" +
 		// graphTest.noOfConnectedComponent(adj, vertex, visited));
 
-		System.out.println("DFS");
-		List<Integer> ans = graphTest.dfcForGraph(adj, vertex);
-		System.out.println(ans);
+		/*
+		 * System.out.println("DFS"); List<Integer> ans = graphTest.dfcForGraph(adj,
+		 * vertex); System.out.println(ans);
+		 */
 
-		System.out.println("Cycle " + graphTest.isCycle(adj, vertex));
+		// System.out.println("Cycle " + graphTest.isCycle(adj, vertex));
+
+		// graphTest.dijkstra(adj, vertex, 1);
+		graphTest.countShortestPath(adj, vertex, 1, 5);
 	}
 
 }
