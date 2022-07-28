@@ -195,7 +195,7 @@ public class GraphTest {
 				if (dist[neighbor] > dist[u] + wt) {
 					predecessor[neighbor] = u;
 					dist[neighbor] = dist[u] + wt;
-					priorityQueue.add(new Pair(dist[neighbor], neighbor));
+					priorityQueue.add(new Pair(wt, neighbor));
 				}
 
 			}
@@ -232,23 +232,23 @@ public class GraphTest {
 
 	public void countShortestPath(List<List<Integer>> adj, int vertex, int source, int dest) {
 		boolean[] visited = new boolean[vertex + 1];
-		int[] predecessor = new int[vertex + 1];
 		int[] dist = new int[vertex + 1];
+		int[] path = new int[vertex + 1];
 		for (int i = 0; i <= vertex; i++) {
 			visited[i] = false;
 			dist[i] = Integer.MAX_VALUE;
-			predecessor[i] = -1;
+			path[i] = 0;
 		}
 
 		PriorityQueue<Pair> priorityQueue = new PriorityQueue<>();
 		priorityQueue.add(new Pair(0, source));
 		dist[source] = 0;
+		path[source] = 1;
 		while (!priorityQueue.isEmpty()) {
 			Pair curr = priorityQueue.remove();
 			int u = curr.v;
-			if (u == dest) {
-				printShortestPath(source, dest, dist, predecessor);
-			}
+			int uwt = curr.wt;
+
 			if (visited[u]) {
 				continue;
 			}
@@ -259,22 +259,25 @@ public class GraphTest {
 			for (Integer neighbor : neighborsList) {
 				int wt = neighbor * 2 - u; // weight is not available in graph, if available use same
 				if (dist[neighbor] > dist[u] + wt) {
-					predecessor[neighbor] = u;
-					dist[neighbor] = dist[u] + wt;
-					priorityQueue.add(new Pair(dist[neighbor], neighbor));
+					path[neighbor] = path[u];
+					dist[neighbor] = uwt + wt;
+					priorityQueue.add(new Pair(wt, neighbor));
+				} else if (dist[neighbor] == dist[u] + wt) {
+					path[neighbor] = (path[neighbor] + path[u]);
 				}
 
 			}
 		}
 
+		printShortestPath(source, dest, path);
+
 	}
 
-	private void printShortestPath(int source, int dest, int[] dist, int[] predecessor) {
-		System.out.print("Vertex\t Distance\tPath");
+	private void printShortestPath(int source, int dest, int[] path) {
+		System.out.print("Vertex\t Count of Path");
 		System.out.print("\n" + source + " -> ");
 		System.out.print(dest + " \t\t ");
-		System.out.print(dist[dest] + "\t\t");
-		printPath(dest, predecessor);
+		System.out.print(path[source] + "\t\t");
 	}
 
 	public static void main(String[] args) {
