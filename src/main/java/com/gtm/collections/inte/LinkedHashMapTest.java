@@ -25,8 +25,14 @@ public class LinkedHashMapTest {
 		map.put(e3, "emp3");
 		map.put(1, "one");
 
+		Emp e31 = new Emp();
+		e31.setId(11);
+		e31.setName("Ram");
+		System.out.println(e3.hashCode());
+
 		System.out.println(map);
+		System.out.println(map.get(e31));// if hasCode() and equals(Object obj) methods are not override then return
+											// null otherwise 'emp3'
 
-
-	}	
+	}
 }
