@@ -6,6 +6,8 @@ package com.gtm.thread.concurrency.lock;
 public interface LockCustom {
 
 	void lock();
+
 	void unlock();
-	boolean tryLock();  
+
+	boolean tryLock();
 }
