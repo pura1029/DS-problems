@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.TreeMap;
 
 public class BinarySearchTree {
 
@@ -197,6 +200,76 @@ public class BinarySearchTree {
 		map.put(level, root.data);
 		printRightViewUtil(root.left, map, level + 1);
 		printRightViewUtil(root.right, map, level + 1);
+	}
+
+	// https://www.hackerrank.com/challenges/tree-top-view/problem
+	// https://www.geeksforgeeks.org/print-nodes-in-the-top-view-of-binary-tree-set-3/
+	public void topView(TreeNode root) {
+
+		if (root == null) {
+			return;
+		}
+
+		Queue<Pair> queue = new LinkedList<>();
+		Map<Integer, Integer> map = new TreeMap<>();
+		queue.add(new Pair(root, 0));
+		while (!queue.isEmpty()) {
+			Pair pair = queue.poll();
+
+			map.putIfAbsent(pair.horizontalDistance, pair.node.data);
+
+			if (pair.node.left != null) {
+				queue.add(new Pair(pair.node.left, pair.horizontalDistance - 1));
+			}
+
+			if (pair.node.right != null) {
+				queue.add(new Pair(pair.node.right, pair.horizontalDistance + 1));
+			}
+		}
+
+		map.values().forEach(ele -> {
+			System.out.print(ele + " ");
+		});
+		System.out.println();
+	}
+
+	static class Pair {
+		TreeNode node;
+		int horizontalDistance;
+
+		public Pair(TreeNode node, int horizontalDistance) {
+			this.node = node;
+			this.horizontalDistance = horizontalDistance;
+		}
+	}
+
+	public void bottomView(TreeNode root) {
+
+		if (root == null) {
+			return;
+		}
+
+		Queue<Pair> queue = new LinkedList<>();
+		Map<Integer, Integer> map = new TreeMap<>();
+		queue.add(new Pair(root, 0));
+		while (!queue.isEmpty()) {
+			Pair pair = queue.poll();
+
+			map.put(pair.horizontalDistance, pair.node.data);
+
+			if (pair.node.left != null) {
+				queue.add(new Pair(pair.node.left, pair.horizontalDistance - 1));
+			}
+
+			if (pair.node.right != null) {
+				queue.add(new Pair(pair.node.right, pair.horizontalDistance + 1));
+			}
+		}
+
+		map.values().forEach(ele -> {
+			System.out.print(ele + " ");
+		});
+		System.out.println();
 	}
 
 	public void printPathBw2Nodes(TreeNode root, int node1, int node2) {
@@ -396,7 +469,10 @@ public class BinarySearchTree {
 
 		System.out.println("LCA " + searchTree.findLCA(root, 3, 7));
 
-		//System.out.println(searchTree.isValidBST(root));
+		// System.out.println(searchTree.isValidBST(root));
+
+		searchTree.topView(root);
+		searchTree.bottomView(root);
 	}
 
 }
