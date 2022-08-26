@@ -28,7 +28,7 @@ public class HeapTest {
 		// If current node is greater than its parent
 		// Swap both of them and call heapify again
 		// for the parent
-		if (arr[parent] > 0 && arr[i] > arr[parent]) {
+		if (parent >= 0 && arr[i] > arr[parent]) {
 			swap(arr, i, parent);
 
 			// Recursively heapify the parent node
