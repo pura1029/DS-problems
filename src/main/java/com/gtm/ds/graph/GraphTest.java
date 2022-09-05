@@ -241,7 +241,7 @@ public class GraphTest {
 		}
 
 		PriorityQueue<Pair> priorityQueue = new PriorityQueue<>();
-		priorityQueue.add(new Pair(0, source));
+		priorityQueue.add(new Pair(1, source));
 		dist[source] = 0;
 		path[source] = 1;
 		while (!priorityQueue.isEmpty()) {
@@ -257,10 +257,10 @@ public class GraphTest {
 			List<Integer> neighborsList = adj.get(u);
 
 			for (Integer neighbor : neighborsList) {
-				int wt = neighbor * 2 - u; // weight is not available in graph, if available use same
+				int wt = 1; // weight is not available in graph, if available use same
 				if (dist[neighbor] > dist[u] + wt) {
 					path[neighbor] = path[u];
-					dist[neighbor] = uwt + wt;
+					dist[neighbor] = dist[u] + wt;
 					priorityQueue.add(new Pair(wt, neighbor));
 				} else if (dist[neighbor] == dist[u] + wt) {
 					path[neighbor] = (path[neighbor] + path[u]);
@@ -277,7 +277,7 @@ public class GraphTest {
 		System.out.print("Vertex\t Count of Path");
 		System.out.print("\n" + source + " -> ");
 		System.out.print(dest + " \t\t ");
-		System.out.print(path[source] + "\t\t");
+		System.out.print(path[dest] + "\t\t");
 	}
 
 	public static void main(String[] args) {
@@ -326,7 +326,8 @@ public class GraphTest {
 		// System.out.println("Cycle " + graphTest.isCycle(adj, vertex));
 
 		// graphTest.dijkstra(adj, vertex, 1);
-		graphTest.countShortestPath(adj, vertex, 1, 5);
+		graphTest.countShortestPath(adj, vertex, 1, 4);
+
 	}
 
 }
