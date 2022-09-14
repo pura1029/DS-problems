@@ -24,6 +24,7 @@ public class MergeLists {
 		public int hashCode() {
 			int hash = 1;
 			hash = hash * 31 + this.id;
+			hash = hash * 31 + this.name.hashCode();
 			return hash;
 		}
 
@@ -37,7 +38,13 @@ public class MergeLists {
 			if (getClass() != oth.getClass())
 				return false;
 			Product other = (Product) oth;
-			return other.id == this.id;
+			if (this.id != other.id) {
+				return false;
+			}
+			if (!this.name.equals(other.name)) {
+				return false;
+			}
+			return true;
 		}
 	}
 
@@ -87,6 +94,6 @@ public class MergeLists {
 			}
 		}
 		System.out.println("Product size :" + setPro.size());
-		System.out.println("Id :" + mapPro.get("product one").id);
+		System.out.println("Id :" + mapPro.get("product three").id);
 	}
 }
