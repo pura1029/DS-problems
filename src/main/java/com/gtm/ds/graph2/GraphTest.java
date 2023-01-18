@@ -14,23 +14,20 @@ public class GraphTest {
     @Getter
     static class Edge {
         private int src;
-        private int desc;
+        private int dest;
     }
 
     public static void addEdge(List<List<Edge>> graph, int i, int src, int desc) {
-        List<Edge> edges = null;
-        if (i < graph.size()) {
-            edges = graph.get(i);
-        } else {
-            edges = new ArrayList<>();
-        }
-
-
+        List<Edge> edges = graph.get(i);
         edges.add(new Edge(src, desc));
-        graph.add(edges);
     }
 
-    public static void createGraph(List<List<Edge>> graph) {
+    public static void createGraph(List<List<Edge>> graph, int V) {
+
+        for (int i = 0; i < V; i++) {
+            List<Edge> edges = new ArrayList<>();
+            graph.add(edges);
+        }
 
         addEdge(graph, 0, 0, 1);
         addEdge(graph, 0, 0, 2);
@@ -56,8 +53,7 @@ public class GraphTest {
         addEdge(graph, 6, 6, 5);
     }
 
-
-    public static void bfs(List<List<Edge>> graph, int V, boolean[] visited, int start) {
+    public static void bfs(List<List<Edge>> graph, boolean[] visited, int start) {
         Queue<Integer> queue = new LinkedList<>();
         queue.add(start);
 
@@ -69,26 +65,61 @@ public class GraphTest {
 
                 for (int i = 0; i < graph.get(curr).size(); i++) {
                     Edge edge = graph.get(curr).get(i);
-                    queue.add(edge.getDesc());
+                    queue.add(edge.getDest());
                 }
             }
         }
+    }
 
-        System.out.println();
+    public static void dfs(List<List<Edge>> graph, int curr, boolean[] visited) {
+
+        System.out.print(curr + " ");
+        visited[curr] = true;
+
+        for (int i = 0; i < graph.get(curr).size(); i++) {
+            Edge edge = graph.get(curr).get(i);
+            if (!visited[edge.getDest()]) {
+                dfs(graph, edge.dest, visited);
+            }
+        }
+    }
+
+    public static void printAllPath(List<List<Edge>> graph, int curr, int target, String path, boolean[] visited) {
+
+        if (curr == target) {
+            System.out.println(path);
+            return;
+        }
+
+        for (int i = 0; i < graph.get(curr).size(); i++) {
+            Edge edge = graph.get(curr).get(i);
+            if (!visited[edge.getDest()]) {
+                visited[curr] = true;
+                printAllPath(graph, edge.dest, target, (path + edge.getDest()), visited);
+                visited[curr] = false;
+            }
+        }
+
     }
 
     public static void main(String[] args) {
         int V = 7;
         List<List<Edge>> graph = new ArrayList<>(V);
-        createGraph(graph);
+        createGraph(graph, V);
 
         boolean[] visited = new boolean[V];
         for (int i = 0; i < V; i++) {
             if (!visited[i]) {
-                bfs(graph, V, visited, i);
+                //bfs(graph, visited, i);
+                dfs(graph, i, visited);
             }
         }
+        System.out.println();
 
+        int src = 0;
+        int dest = 5;
+
+        printAllPath(graph, src, dest, ("" + src), new boolean[V]);
     }
 
 }
