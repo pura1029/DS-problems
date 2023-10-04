@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-//https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
 public class WeightGraphTest {
 
     private List<List<Pair>> adj;
@@ -57,9 +56,11 @@ public class WeightGraphTest {
         }
     }
 
+    //https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
+    // Find the shortest path of all vertices form start Vertex.
     public void dijkstra(int startVertex) {
         boolean[] visited = new boolean[vertex + 1];
-        int[] predecessor = new int[vertex + 1];
+        int[] predecessor = new int[vertex + 1];// store parent of current node
         int[] dist = new int[vertex + 1];
         for (int i = 0; i <= vertex; i++) {
             visited[i] = false;
@@ -85,8 +86,9 @@ public class WeightGraphTest {
                 int u1 = neighbor.v;
                 if (dist[u1] > dist[u] + wt) {
                     predecessor[u1] = u;
-                    dist[u1] = dist[u] + wt;
-                    priorityQueue.add(new Pair(u1, dist[u1]));
+                    int currNodeDist = dist[u] + wt;
+                    dist[u1] = currNodeDist;
+                    priorityQueue.add(new Pair(u1, currNodeDist));
                 }
 
             }
@@ -121,10 +123,11 @@ public class WeightGraphTest {
 
     }
 
+    // Count the all shortest path form source to destination Vertex.
     public void countShortestPath(int source, int dest) {
         boolean[] visited = new boolean[vertex + 1];
         int[] dist = new int[vertex + 1];
-        int[] path = new int[vertex + 1];
+        int[] path = new int[vertex + 1];// store no of Shortest Path of current node.
         for (int i = 0; i <= vertex; i++) {
             visited[i] = false;
             dist[i] = Integer.MAX_VALUE;
