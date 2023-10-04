@@ -17,7 +17,6 @@ public class FractionalKnapsackProblem {
 
     // Item value class
     static class ItemValue {
-
         int profit;
         int weight;
         double valuePerUnitWeight;
@@ -30,11 +29,8 @@ public class FractionalKnapsackProblem {
         }
     }
 
-    private static double getMaxValue(ItemValue[] arr,
-                                      int capacity) {
+    private static double getMaxValue(ItemValue[] arr, int capacity) {
         Arrays.sort(arr, (item1, item2) -> {
-
-
             if (item1.valuePerUnitWeight < item2.valuePerUnitWeight)
                 return 1;
             else
