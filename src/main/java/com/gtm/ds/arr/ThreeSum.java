@@ -8,62 +8,97 @@ import java.util.Set;
 
 public class ThreeSum {
 
-	boolean find3Numbers(int[] arr, int sum) {
-		Arrays.sort(arr);
-		int n = arr.length;
-		for (int i = 0; i < n - 2; i++) {
-			int lo = i + 1;
-			int hi = n - 1;
+    boolean find3Numbers(int[] arr, int sum) {
+        Arrays.sort(arr);
+        int n = arr.length;
+        for (int i = 0; i < n - 2; i++) {
+            int lo = i + 1;
+            int hi = n - 1;
 
-			while (lo < hi) {
-				if (arr[i] + arr[lo] + arr[hi] == sum) {
-					System.out.println("Triplet is " + arr[i] + ", " + arr[lo] + ", " + arr[hi]);
-					return true;
-				} else if (arr[i] + arr[lo] + arr[hi] < sum) {
-					lo++;
-				} else {// arr[i]+arr[lo]+arr[hi] > sum
-					hi--;
-				}
-			}
-		}
+            while (lo < hi) {
+                if (arr[i] + arr[lo] + arr[hi] == sum) {
+                    System.out.println("Triplet is " + arr[i] + ", " + arr[lo] + ", " + arr[hi]);
+                    return true;
+                } else if (arr[i] + arr[lo] + arr[hi] < sum) {
+                    lo++;
+                } else {// arr[i]+arr[lo]+arr[hi] > sum
+                    hi--;
+                }
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public static List<List<Integer>> threeSum(int[] nums, int eq) {
-		Set<List<Integer>> res = new HashSet<>();
-		int n = nums.length;
-		if (n == 0) {
-			return new ArrayList<>(res);
-		}
-		Arrays.sort(nums);
-		for (int i = 0; i < n - 1; i++) {
-			int lo = i + 1;
-			int hi = n - 1;
-			while (lo < hi) {
-				int sum = nums[i] + nums[lo] + nums[hi];
-				if (sum == eq) {
-					res.add(Arrays.asList(nums[i], nums[lo], nums[hi]));
-					lo++;
-					hi--;
-				} else if (sum < eq) {
-					lo++;
-				} else {// sum > eq
-					hi--;
-				}
-			}
-		}
-		return new ArrayList<>(res);
-	}
+    public static List<List<Integer>> threeSum(int[] nums, int eq) {
+        Set<List<Integer>> res = new HashSet<>();
+        int n = nums.length;
+        if (n == 0) {
+            return new ArrayList<>();
+        }
+        Arrays.sort(nums);
+        for (int i = 0; i < n - 1; i++) {
+            int lo = i + 1;
+            int hi = n - 1;
+            while (lo < hi) {
+                int sum = nums[i] + nums[lo] + nums[hi];
+                if (sum == eq) {
+                    res.add(Arrays.asList(nums[i], nums[lo], nums[hi]));
+                    lo++;
+                    hi--;
+                } else if (sum < eq) {
+                    lo++;
+                } else {// sum > eq
+                    hi--;
+                }
+            }
+        }
+        return new ArrayList<>(res);
+    }
 
-	public static void main(String[] args) {
-		ThreeSum threeSum = new ThreeSum();
-		int[] arr = { 1, 4, 45, 6, 10, 8 };
-		// int arr[] = { 0, -1, 2, -3, 1 };
-		int sum = 22;
-		threeSum.find3Numbers(arr, sum);
+    public static void threeSumWithExtSpace(int[] nums, int eq) {
+        System.out.println("threeSumWithExtSpace");
+        int n = nums.length;
+        if (n == 0) {
+            return;
+        }
 
-		System.out.println(threeSum(arr, sum));
-	}
+        Arrays.sort(nums);
+        for (int i = 0; i < n - 1; i++) {
+            int lo = i + 1;
+            int hi = n - 1;
+            while (lo < hi) {
+                int sum = nums[i] + nums[lo] + nums[hi];
+                if (sum == eq) {
+                    System.out.println(nums[i] + "," + nums[lo] + "," + nums[hi]);
+                    //Ignoring duplicate elements.
+                    while (lo < hi && nums[lo] == nums[lo + 1]) {
+                        lo++;
+                    }
+                    while (lo < hi && nums[hi] == nums[hi - 1]) {
+                        hi--;
+                    }
+                    lo++;
+                    hi--;
+                } else if (sum < eq) {
+                    lo++;
+                } else {// sum > eq
+                    hi--;
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ThreeSum threeSum = new ThreeSum();
+        int[] arr = {1, 4, 45, 6, 10, 8, 8};
+        // int arr[] = { 0, -1, 2, -3, 1 };
+        int sum = 22;
+        threeSum.find3Numbers(arr, sum);
+
+        System.out.println(threeSum(arr, sum));
+
+        threeSumWithExtSpace(arr, sum);
+    }
 
 }

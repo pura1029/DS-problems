@@ -8,6 +8,7 @@ public class Permutation {
 	 * @param str string to calculate permutation for
 	 * @param l   starting index
 	 * @param r   end index
+	 *https://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/
 	 */
 	private void permute(String str, int l, int r) {
 		if (l == r) {
