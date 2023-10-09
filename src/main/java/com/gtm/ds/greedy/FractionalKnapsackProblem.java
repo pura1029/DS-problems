@@ -30,6 +30,7 @@ public class FractionalKnapsackProblem {
     }
 
     private static double getMaxValue(ItemValue[] arr, int capacity) {
+        // Sort ItemValue in decreasing order
         Arrays.sort(arr, (item1, item2) -> {
             if (item1.valuePerUnitWeight < item2.valuePerUnitWeight)
                 return 1;
