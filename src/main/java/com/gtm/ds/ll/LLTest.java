@@ -244,17 +244,19 @@ public class LLTest {
 		}
 		Node slow = curr;
 		Node fast = curr;
+		boolean foundCycle = false;
 		while (fast != null && fast.next != null) {
 			slow = slow.next;
 			fast = fast.next.next;
 			if (slow == fast) {
+				foundCycle = true;
 				break;
 			}
 		}
 
 		slow = head;
 		Node prev = null;
-		while (fast != null) {
+		while (foundCycle) {
 			slow = slow.next;
 			prev = fast;
 			fast = fast.next;
@@ -263,7 +265,7 @@ public class LLTest {
 			}
 		}
 
-		if (fast != null) {
+		if (foundCycle && fast != null) {
 			prev.next = null;
 		}
 
@@ -278,8 +280,8 @@ public class LLTest {
 		test.addLast(node3);
 		test.addLast(4);
 		test.addLast(5);
-		// test.addLast(node3);
-		test.print();
+		test.addLast(node3);
+		//test.print();//1->2->3->4->5
 
 		// test.deleteFirst();
 		// test.print();
@@ -293,12 +295,12 @@ public class LLTest {
 
 		// System.out.println("isPlindrome :"+test.isPlindrome(test.head));
 
-		// System.out.println("hasCycle :" + test.hasCycle(test.head));
+		System.out.println("hasCycle :" + test.hasCycle(test.head));
 
 		// System.out.println("Cycle Node :" + test.findCycleStartNode(test.head));
 
-		// test.removeCycle(test.head);
-		// test.print();
+		 test.removeCycle(test.head);
+		 test.print();
 	}
 
 }
