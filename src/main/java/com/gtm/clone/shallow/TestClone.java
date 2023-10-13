@@ -1,5 +1,5 @@
 package com.gtm.clone.shallow;
-
+//https://howtodoinjava.com/java/cloning/a-guide-to-object-cloning-in-java/
 public class TestClone {
 
 	/**
@@ -11,12 +11,13 @@ public class TestClone {
 		Employee original = new Employee(1, "Admin", hr);
 		Employee cloned = (Employee)original.clone();
 		
-		cloned.getDeparment().setName("Finance");
-		System.out.println(original.getDeparment().getName());
+		cloned.getDepartment().setName("Finance");
+		System.out.println(original.getDepartment().getName());
+		System.out.println(cloned.getDepartment().getName());
 		
 		System.out.println(original.getClass() == cloned.getClass());
 		
-		System.out.println(original != cloned);
+		System.out.println(original == cloned);
 
 	}
 

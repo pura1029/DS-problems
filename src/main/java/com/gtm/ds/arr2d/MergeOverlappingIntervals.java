@@ -18,7 +18,7 @@ public class MergeOverlappingIntervals {
 		if (intervals == null || intervals.length == 0)
 			return;
 
-		Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+		Arrays.sort(intervals, (arr1, arr2) -> arr1[0] - arr2[0]);
 
 		Stack<Interval> stack = new Stack<>();
 
@@ -52,7 +52,7 @@ public class MergeOverlappingIntervals {
 	}
 
 	public static void main(String[] args) {
-		int[][] intervals = { { 7, 9 }, { 1, 6 }, { 2, 8 }, { 10, 15 } };
+		int[][] intervals = { { 7, 9 }, { 1, 6 }, { 2, 10 }, { 10, 15 } };
 		// {{ 1, 6 },{ 2, 8 },{ 7, 9 },{ 10, 15 }}
 
 		mergeIntervals(intervals);
