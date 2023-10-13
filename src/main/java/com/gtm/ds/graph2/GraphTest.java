@@ -119,7 +119,7 @@ public class GraphTest {
         boolean[] visited = new boolean[V];
         for (int i = 0; i < V; i++) {
             if (!visited[i]) {
-                //graphTest.bfs(graph, visited, i);
+                //graphTest.bfs(graph, visited, i); // Time complexity : O(V+E)
                 graphTest.dfs(i, visited);
             }
         }
