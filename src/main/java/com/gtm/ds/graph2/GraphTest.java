@@ -1,59 +1,68 @@
 package com.gtm.ds.graph2;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 public class GraphTest {
+
+    private List<List<Edge>> graph;
+    private int V;
+
+    public GraphTest(int v) {
+        this.graph = new ArrayList<>(v);
+        this.V = v;
+    }
 
     @AllArgsConstructor
     @Getter
     static class Edge {
         private int src;
         private int dest;
+        private int wt;
     }
 
-    public static void addEdge(List<List<Edge>> graph, int i, int src, int desc) {
-        List<Edge> edges = graph.get(i);
-        edges.add(new Edge(src, desc));
+    public void addEdge(int index, int src, int desc, int wt) {
+        List<Edge> edges = graph.get(index);
+        edges.add(new Edge(src, desc, wt));
     }
 
-    public static void createGraph(List<List<Edge>> graph, int V) {
+    public void createGraph() {
 
         for (int i = 0; i < V; i++) {
             List<Edge> edges = new ArrayList<>();
             graph.add(edges);
         }
 
-        addEdge(graph, 0, 0, 1);
-        addEdge(graph, 0, 0, 2);
+        addEdge(0, 0, 1, 1);
+        addEdge(0, 0, 2, 2);
 
-        addEdge(graph, 1, 1, 0);
-        addEdge(graph, 1, 1, 3);
+        addEdge(1, 1, 0, 2);
+        addEdge(1, 1, 3, 1);
 
-        addEdge(graph, 2, 2, 0);
-        addEdge(graph, 2, 2, 4);
+        addEdge(2, 2, 0, -1);
+        addEdge(2, 2, 4, 3);
 
-        addEdge(graph, 3, 3, 1);
-        addEdge(graph, 3, 3, 4);
-        addEdge(graph, 3, 3, 5);
+        addEdge(3, 3, 1, 4);
+        addEdge(3, 3, 4, 1);
+        addEdge(3, 3, 5, 5);
 
-        addEdge(graph, 4, 4, 2);
-        addEdge(graph, 4, 4, 3);
-        addEdge(graph, 4, 4, 5);
+        addEdge(4, 4, 2, 2);
+        addEdge(4, 4, 3, 3);
+        addEdge(4, 4, 5, 1);
 
-        addEdge(graph, 5, 5, 3);
-        addEdge(graph, 5, 5, 4);
-        addEdge(graph, 5, 5, 6);
+        addEdge(5, 5, 3, -1);
+        addEdge(5, 5, 4, -2);
+        addEdge(5, 5, 6, 4);
 
-        addEdge(graph, 6, 6, 5);
+        addEdge(6, 6, 5, 5);
     }
 
-    public static void bfs(List<List<Edge>> graph, boolean[] visited, int start) {
+    public void bfs(boolean[] visited, int start) {
         Queue<Integer> queue = new LinkedList<>();
         queue.add(start);
 
@@ -71,7 +80,7 @@ public class GraphTest {
         }
     }
 
-    public static void dfs(List<List<Edge>> graph, int curr, boolean[] visited) {
+    public void dfs(int curr, boolean[] visited) {
 
         System.out.print(curr + " ");
         visited[curr] = true;
@@ -79,12 +88,12 @@ public class GraphTest {
         for (int i = 0; i < graph.get(curr).size(); i++) {
             Edge edge = graph.get(curr).get(i);
             if (!visited[edge.getDest()]) {
-                dfs(graph, edge.dest, visited);
+                dfs(edge.dest, visited);
             }
         }
     }
 
-    public static void printAllPath(List<List<Edge>> graph, int curr, int target, String path, boolean[] visited) {
+    public void printAllPath(int curr, int target, String path, boolean[] visited) {
 
         if (curr == target) {
             System.out.println(path);
@@ -95,7 +104,7 @@ public class GraphTest {
             Edge edge = graph.get(curr).get(i);
             if (!visited[edge.getDest()]) {
                 visited[curr] = true;
-                printAllPath(graph, edge.dest, target, (path + edge.getDest()), visited);
+                printAllPath(edge.dest, target, (path + "->" + edge.getDest()), visited);
                 visited[curr] = false;
             }
         }
@@ -104,14 +113,14 @@ public class GraphTest {
 
     public static void main(String[] args) {
         int V = 7;
-        List<List<Edge>> graph = new ArrayList<>(V);
-        createGraph(graph, V);
+        GraphTest graphTest = new GraphTest(V);
+        graphTest.createGraph();
 
         boolean[] visited = new boolean[V];
         for (int i = 0; i < V; i++) {
             if (!visited[i]) {
-                //bfs(graph, visited, i);
-                dfs(graph, i, visited);
+                //graphTest.bfs(graph, visited, i);
+                graphTest.dfs(i, visited);
             }
         }
         System.out.println();
@@ -119,7 +128,8 @@ public class GraphTest {
         int src = 0;
         int dest = 5;
 
-        printAllPath(graph, src, dest, ("" + src), new boolean[V]);
+        visited = new boolean[V];
+        graphTest.printAllPath(src, dest, ("" + src), visited);
     }
 
 }
