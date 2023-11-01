@@ -256,7 +256,7 @@ public class LLTest {
 
         slow = head;
         Node prev = null;
-        while (foundCycle) {
+        while (foundCycle && fast != null) {
             slow = slow.next;
             prev = fast;
             fast = fast.next;
