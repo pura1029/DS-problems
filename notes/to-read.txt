@@ -1,3 +1,6 @@
 SOLID Principles : https://betterprogramming.pub/solid-principles-with-almost-real-life-examples-in-java-b292a4e2c18b
 Return Value From try-catch-finally Blocks: https://javaconceptoftheday.com/return-value-from-try-catch-finally-blocks/
 SQL : https://www.youtube.com/watch?v=vIq9zkpGWc8&list=PLex4mfudHHcqwJYStv8uvOLsPQXbsrs4u&index=9&t=1118s&ab_channel=CodeHelp-byBabbar
+Splitwise LLD : https://workat.tech/machine-coding/editorial/how-to-design-splitwise-machine-coding-ayvnfo1tfst6
+Splitwise LLD : https://leetcode.com/discuss/interview-question/object-oriented-design/1760369/splitwise-lld-workattech-review-appreciated
+https://workat.tech/
