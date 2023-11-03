@@ -4,10 +4,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.gtm.ds.tree.BinaryTreesYT.TreeNode;
+import lombok.ToString;
 
 //https://www.youtube.com/watch?v=-DzowlcaUmE&t=928s&ab_channel=ApnaCollege
 public class BinaryTreesYT {
 
+	@ToString
 	static class TreeNode {
 		int data;
 		TreeNode left;
@@ -17,11 +19,6 @@ public class BinaryTreesYT {
 			this.data = data;
 			this.left = null;
 			this.right = null;
-		}
-
-		@Override
-		public String toString() {
-			return "Node [data=" + data + "]";
 		}
 	}
 
