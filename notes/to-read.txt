@@ -4,3 +4,7 @@ SQL : https://www.youtube.com/watch?v=vIq9zkpGWc8&list=PLex4mfudHHcqwJYStv8uvOLs
 Splitwise LLD : https://workat.tech/machine-coding/editorial/how-to-design-splitwise-machine-coding-ayvnfo1tfst6
 Splitwise LLD : https://leetcode.com/discuss/interview-question/object-oriented-design/1760369/splitwise-lld-workattech-review-appreciated
 https://workat.tech/
+
+HLD:
+https://leetcode.com/discuss/interview-question/3092436/Design-Unique-ID-Generator
+https://abheist.com/twitter-snowflake-for-unique-ids/
