@@ -90,9 +90,9 @@ class BinaryTree {
 			return;
 		}
 
-		preOrder(root.left);
+		inOrder(root.left);
 		System.out.println(root.data);
-		preOrder(root.right);
+		inOrder(root.right);
 	}
 
 	public void postOrder(TreeNode root) {// left sub tree --> right sub tree --> root

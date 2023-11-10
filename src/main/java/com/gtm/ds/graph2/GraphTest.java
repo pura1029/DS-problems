@@ -121,6 +121,22 @@ public class GraphTest {
         return false;
     }
 
+    public boolean detectCycleinUnDirectedGraph(int curr, boolean[] visited, int parent) {
+
+        visited[curr] = true;
+
+        for (int i = 0; i < graph.get(curr).size(); i++) {
+            Edge edge = graph.get(curr).get(i);
+            if (visited[edge.getDest()] && edge.getDest() != parent) {
+                System.out.println("cycle b/w " + parent + " and " + edge.getDest());
+                return true;
+            } else if (!visited[edge.getDest()] && detectCycleinUnDirectedGraph(edge.getDest(), visited, curr)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void printAllPath(int curr, int target, String path, boolean[] visited) {
 
         if (curr == target) {
