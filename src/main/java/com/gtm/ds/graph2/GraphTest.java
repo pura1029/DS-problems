@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 //https://www.youtube.com/watch?v=59fUtYYz7ZU&list=PLfqMhTWNBTe0sPLFF91REaJQEteFZtLzA&index=15&ab_channel=ApnaCollege
@@ -155,99 +156,83 @@ public class GraphTest {
 
     }
 
-    //https://leetcode.com/problems/number-of-islands/
-    public int numIslands(char[][] grid) {
-        int n = grid.length;
-        int m = grid[0].length;
-        int visited[][] = new int[n][m];
+    static class Pair implements Comparable<Pair> {
+        int node;
+        int dist;
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                visited[i][j] = 0;
-            }
+        public Pair(int node, int dist) {
+            this.node = node;
+            this.dist = dist;
         }
 
-        int count = 0;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-
-                if (visited[i][j] == 0 && grid[i][j] == '1') {
-                    count++;
-                    dfsForNumIslands(grid, i, j, visited);
-                }
-            }
+        @Override
+        public int compareTo(Pair o) {
+            return this.dist - o.dist;
         }
-        return count;
-    }
 
-    private void dfsForNumIslands(char grid[][], int row, int col, int visited[][]) {
-        visited[row][col] = 1;
-
-        int n = grid.length;
-        int m = grid[0].length;
-
-        /**
-         *          (r-1,c)
-         *  (r,c-1) (r,c) (r,c+1)
-         *         (r+1,c)
-         */
-
-        int delrow[] = {-1, 0, 1, 0};// Array to represent possible row moves (up, right, down, left)
-        int delcol[] = {0, 1, 0, -1};// Array to represent possible column moves (up, right, down, left)
-        for (int i = 0; i < 4; i++) {
-
-            int nrow = row + delrow[i];
-            int ncol = col + delcol[i];
-            if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m
-                    && visited[nrow][ncol] == 0 && grid[nrow][ncol] == '1') {
-                // Recursively call DFS on the adjacent cell
-                dfsForNumIslands(grid, nrow, ncol, visited);
-            }
+        @Override
+        public String toString() {
+            return "Pair{" +
+                    "node=" + node +
+                    ", dist=" + dist +
+                    '}';
         }
     }
 
-    //https://leetcode.com/problems/rotting-oranges/
-    public int orangesRotting(int[][] grid) {
-        int n = grid.length;
-        int m = grid[0].length;
-        Queue<Pair> queue = new LinkedList<Pair>();
-        int[][] vis = new int[n][m];
-        int countFresh = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (grid[i][j] == 2) {
-                    queue.add(new Pair(i, j, 0));
-                    vis[i][j] = 2;
-                } else {
-                    vis[i][j] = 0;
-                }
-                if (grid[i][j] == 1) countFresh++;
-            }
+    public void dijkstra(int src) {
+        PriorityQueue<Pair> priorityQueue = new PriorityQueue<>();
+        int[] dist = new int[V];
+        boolean[] visited = new boolean[V];
+        int[] predecessor = new int[V];// store parent of current node
+        for (int i = 0; i < V; i++) {
+            dist[i] = Integer.MAX_VALUE;
+            predecessor[i] = -1;
         }
-        int tm = 0;
-        int[] drow = {-1, 0, 1, 0};// Array to represent possible row moves (up, right, down, left)
-        int[] dcol = {0, 1, 0, -1};// Array to represent possible column moves (up, right, down, left)
-        int cnt = 0;
-        while (!queue.isEmpty()) {
-            int r = queue.peek().row;
-            int c = queue.peek().col;
-            int t = queue.peek().tm;
-            tm = Math.max(tm, t);
-            queue.remove();
-            for (int i = 0; i < 4; i++) {
-                int nRow = r + drow[i];
-                int nCol = c + dcol[i];
-                if (nRow >= 0 && nRow < n && nCol >= 0 && nCol < m
-                        && vis[nRow][nCol] == 0 && grid[nRow][nCol] == 1) {
-                    queue.add(new Pair(nRow, nCol, t + 1));
-                    vis[nRow][nCol] = 2;
-                    cnt++;
+
+        priorityQueue.add(new Pair(src, 0));
+        dist[src] = 0;
+        while (!priorityQueue.isEmpty()) {
+            Pair pair = priorityQueue.remove();
+            if (!visited[pair.node]) {
+                visited[pair.node] = true;
+                for (int i = 0; i < graph.get(pair.node).size(); i++) {
+                    Edge edge = graph.get(pair.node).get(i);
+                    int u = edge.src;
+                    int v = edge.dest;
+                    if (dist[u] + edge.wt < dist[v]) {
+                        dist[v] = dist[u] + edge.wt;
+                        priorityQueue.add(new Pair(v, dist[v]));
+                        predecessor[v] = pair.node;
+                    }
                 }
             }
         }
-        if (cnt != countFresh) return -1;
-        return tm;
+        printSolution(src, dist, predecessor);
+    }
+
+    private void printSolution(int src, int[] dist, int[] predecessor) {
+        System.out.print("Vertex\t Distance\tPath");
+
+        for (int vertexIndex = 0; vertexIndex < V; vertexIndex++) {
+            if (vertexIndex != src) {
+                System.out.print("\n" + src + " -> ");
+                System.out.print(vertexIndex + " \t\t ");
+                System.out.print(dist[vertexIndex] + "\t\t");
+                //printPath(src, vertexIndex, predecessor);
+            }
+        }
+
+    }
+
+    private void printPath(int src, int currentVertex, int[] predecessor) {
+        // Base case : Source node has
+        // been processed
+        if (currentVertex == -1 || currentVertex == src) {
+            return;
+        }
+        printPath(src, predecessor[currentVertex], predecessor);
+        System.out.print(currentVertex + " ");
+
     }
 
     public static void main(String[] args) {
@@ -270,39 +255,13 @@ public class GraphTest {
         visited = new boolean[V];
         graphTest.printAllPath(src, dest, ("" + src), visited);
 
-        char[][] grid = {
-                {'1', '1', '0', '0', '0'},
-                {'1', '1', '0', '0', '0'},
-                {'0', '0', '1', '0', '0'},
-                {'0', '0', '0', '1', '1'}
-        };
-
-        System.out.println("num of Islands :" + graphTest.numIslands(grid));
-
-        int[][] grid1 = {
-                {2, 1, 1},
-                {1, 1, 0},
-                {0, 1, 1}
-        };
-        System.out.println("time for orangesRotting :" + graphTest.orangesRotting(grid1));
-
         //Directed graph
         int v1 = 4;
         GraphTest directedGraphTest = new GraphTest(v1);
         directedGraphTest.createDirectedGraph();
 
         System.out.println("is cycle:" + directedGraphTest.detectCycleinDirectedGraph(0, new boolean[v1], new boolean[v1]));
-    }
 
-    class Pair {
-        int row;
-        int col;
-        int tm;
-
-        Pair(int row, int col, int tm) {
-            this.row = row;
-            this.col = col;
-            this.tm = tm;
-        }
+        graphTest.dijkstra(0);
     }
 }
