@@ -32,45 +32,39 @@ public class GraphTest {
         private int wt;
     }
 
-    public void addEdge(int index, int src, int desc, int wt) {
-        List<Edge> edges = graph.get(index);
+    public void addEdge(int src, int desc, int wt) {
+        List<Edge> edges = graph.get(src);
         edges.add(new Edge(src, desc, wt));
     }
 
     public void createGraph() {
 
-        addEdge(0, 0, 1, 1);
-        addEdge(0, 0, 2, 2);
+        addEdge(0, 1, 2);
+        addEdge(0, 2, 4);
 
-        addEdge(1, 1, 0, 2);
-        addEdge(1, 1, 3, 1);
+        addEdge(1, 2, 2);
+        addEdge(1, 3, 7);
 
-        addEdge(2, 2, 0, -1);
-        addEdge(2, 2, 4, 3);
+        addEdge(2, 4, 8);
 
-        addEdge(3, 3, 1, 4);
-        addEdge(3, 3, 4, 1);
-        addEdge(3, 3, 5, 5);
+        addEdge(3, 5, 5);
 
-        addEdge(4, 4, 2, 2);
-        addEdge(4, 4, 3, 3);
-        addEdge(4, 4, 5, 1);
+        addEdge(4, 3, 3);
+        addEdge(4, 5, 1);
 
-        addEdge(5, 5, 3, -1);
-        addEdge(5, 5, 4, -2);
-        addEdge(5, 5, 6, 4);
+        addEdge(5, 6, 4);
 
-        addEdge(6, 6, 5, 5);
+        addEdge(6, 4, 5);
     }
 
     public void createDirectedGraph() {
-        addEdge(0, 0, 2, 1);
+        addEdge(0, 2, 1);
 
-        addEdge(1, 1, 0, 2);
+        addEdge(1, 0, 2);
 
-        addEdge(2, 2, 3, -1);
+        addEdge(2, 3, -1);
 
-        addEdge(3, 3, 0, 4);
+        addEdge(3, 0, 4);
     }
 
     public void bfs(boolean[] visited, int start) {
@@ -218,7 +212,7 @@ public class GraphTest {
                 System.out.print("\n" + src + " -> ");
                 System.out.print(vertexIndex + " \t\t ");
                 System.out.print(dist[vertexIndex] + "\t\t");
-                //printPath(src, vertexIndex, predecessor);
+                printPath(src, vertexIndex, predecessor);
             }
         }
 
