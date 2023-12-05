@@ -33,11 +33,11 @@ public class BinaryDecimalConverter {
 
     public long convertBinaryToDecimal(long binary) {
         long sum = 0;
-        int power = 1;
+        int base = 1;
         while (binary > 0) {
-            long temp = binary % 10;
-            sum = sum + (temp * power);
-            power *= 2;
+            long remainder = binary % 10;
+            sum = sum + (remainder * base);
+            base *= 2;
             binary = binary / 10;
         }
         return sum;
