@@ -1,4 +1,4 @@
-package com.gtm.ds.design.creational;
+package com.gtm.ds.design.creational.singleton;
 
 public class Singleton {
     private static volatile Singleton obj = null;

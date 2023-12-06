@@ -3,7 +3,7 @@
  *
  */
 
-package com.gtm.ds.design.creational;
+package com.gtm.ds.design.creational.singleton;
 
 /**
  * Insert your comment for {@link SingletonDemo}.
