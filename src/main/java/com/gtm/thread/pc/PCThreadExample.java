@@ -2,7 +2,7 @@ package com.gtm.thread.pc;
 
 import java.util.LinkedList;
 //https://www.geeksforgeeks.org/producer-consumer-solution-using-threads-java/
-public class ThreadExample {
+public class PCThreadExample {
     public static void main(String[] args)
             throws InterruptedException {
         // Object of a class that has both produce()
