@@ -1,157 +1,109 @@
-import java.util.*;
+package com.gtm.ds.arr;
+
+import java.util.HashMap;
+
 //https://www.geeksforgeeks.org/longest-sub-array-sum-k/
 public class LongSubArr {
-  
-  // function to find the length of longest
 
-  // subarray having sum k
+// function to find the length of longest
 
-  static int lenOfLongSubarr(int A[], int N, int K)
+// subarray having sum k
 
-  {
+    static int lenOfLongSubarr(int A[], int N, int K) {
 
- 
+        int i = 0, j = 0, sum = 0;
+        int maxLen = Integer.MIN_VALUE;
 
-    int i = 0, j = 0, sum = 0;
+        while (j < N) {
+            sum += A[j];
+            if (sum < K) {
+                j++;
+            } else if (sum == K) {
+                maxLen = Math.max(maxLen, j - i + 1);
+                j++;
 
-    int maxLen = Integer.MIN_VALUE;
+            } else if (sum > K) {
+                while (sum > K) {
+                    sum -= A[i];
+                    i++;
+                }
 
- 
+                if (sum == K) {
+                    maxLen = Math.max(maxLen, j - i + 1);
+                }
+                j++;
 
-    while (j < N) {
+            }
 
-      sum += A[j];
+        }
 
-      if (sum < K) {
+        return maxLen;
 
-        j++;
+    }
 
-      }
 
-      else if (sum == K) {
+    // function to find the length of longest
+    // subarray having sum k
 
-        maxLen = Math.max(maxLen, j-i+1);
+    static int lenOfLongSubarr1(int[] arr, int n, int k) {
 
-        j++;
+        // HashMap to store (sum, index) tuples
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int sum = 0, maxLen = 0;
 
-      }
+        // traverse the given array
+        for (int i = 0; i < n; i++) {
 
-      else if (sum > K) {
 
-        while (sum > K) {
+            // accumulate sum
+            sum += arr[i];
 
-          sum -= A[i];
+            // when subarray starts from index '0'
+            if (sum == k) {
+                maxLen = i + 1;
+            }
 
-          i++;
+            // make an entry for 'sum' if it is
 
-        }
+            // not present in 'map'
 
-        if(sum == K){
+            if (!map.containsKey(sum)) {
+                map.put(sum, i);
+            }
 
-          maxLen = Math.max(maxLen, j-i+1);
 
-        }
+            // check if 'sum-k' is present in 'map'
 
-        j++;
+            // or not
 
-      }
+            if (map.containsKey(sum - k)) {
+                // update maxLength
 
-    }
+                if (maxLen < (i - map.get(sum - k))) {
+                    maxLen = i - map.get(sum - k);
+                }
+            }
 
-    return maxLen;
+        }
 
-  }
+        return maxLen;
 
+    }
 
-      // function to find the length of longest
 
-      // subarray having sum k
+    // Driver code
 
-      static int lenOfLongSubarr(int[] arr, int n, int k)
+    public static void main(String args[]) {
 
-      {
+        int arr[] = {10, 5, 2, 7, 1, 9};
 
-             // HashMap to store (sum, index) tuples
+        int n = arr.length;
 
-             HashMap<Integer, Integer> map = new HashMap<>();
+        int k = 15;
 
-             int sum = 0, maxLen = 0;
+        System.out.printf("Length = %d", lenOfLongSubarr(arr, n, k));
 
- 
+    }
 
-             // traverse the given array
 
-             for (int i = 0; i < n; i++) {
-
-                 
-
-                  // accumulate sum
-
-                  sum += arr[i];
-
-                 
-
-                  // when subarray starts from index '0'
-
-                  if (sum == k)
-
-                      maxLen = i + 1;
-
- 
-
-                  // make an entry for 'sum' if it is
-
-                  // not present in 'map'
-
-                  if (!map.containsKey(sum)) {
-
-                      map.put(sum, i);
-
-                  }
-
- 
-
-                  // check if 'sum-k' is present in 'map'
-
-                  // or not
-
-                  if (map.containsKey(sum - k)) {
-
-                       
-
-                      // update maxLength
-
-                      if (maxLen < (i - map.get(sum - k)))
-
-                          maxLen = i - map.get(sum - k);
-
-                  }
-
-             }
-
-              
-
-             return maxLen;             
-
-      }
-
-
-
- // Driver code
-
-  public static void main(String args[])
-
-  {
-
-    int arr[] = { 10, 5, 2, 7, 1, 9 };
-
-    int n = arr.length;
-
-    int k = 15;
-
-    System.out.printf("Length = %d",lenOfLongSubarr(arr, n, k));
-
-  }
-
-           
 }
