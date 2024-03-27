@@ -1,6 +1,7 @@
 package com.gtm.ds.arr2d;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 //https://leetcode.com/problems/non-overlapping-intervals/
 //find the maximum number of intervals that are non-overlapping.
@@ -9,6 +10,7 @@ public class MaximumNumberNonOverlapping {
 	public static int eraseOverlapIntervals(int[][] intervals) {
 	        if (intervals == null || intervals.length == 0) return 0;
 	        Arrays.sort(intervals, (arr1, arr2) -> Integer.compare(arr1[0], arr2[0]));
+			//Arrays.sort(intervals, Comparator.comparingInt(arr -> arr[0]));
 			//intervals = {{1,2},{1,3},{5,8},{6,9}}
 	        int prevEnd = intervals[0][1];
 	        int count = 0;

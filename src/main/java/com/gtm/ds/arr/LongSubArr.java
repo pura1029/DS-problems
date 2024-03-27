@@ -1,5 +1,8 @@
 package com.gtm.ds.arr;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 //https://www.geeksforgeeks.org/longest-sub-array-sum-k/
@@ -101,7 +104,9 @@ public class LongSubArr {
 
         int k = 15;
 
-        System.out.printf("Length = %d", lenOfLongSubarr(arr, n, k));
+        System.out.printf("Length = %d\n", lenOfLongSubarr(arr, n, k));
+        Integer[] arr1 = Arrays.stream(arr).boxed().sorted(Comparator.comparingInt(a -> (int) a).reversed()).toArray(Integer[]::new);
+        System.out.println(Arrays.toString(arr1));
 
     }
 
