@@ -17,9 +17,9 @@ public class RateLimiter {
         cleanUpExpiredEntries(currentTime);
 
         Limit limit = requestCounts.getOrDefault(ipAddress, new Limit());
+        limit.lastAccessTime = currentTime;
         if (limit.count < REQUEST_LIMIT) {
             limit.count = limit.count + 1;
-            limit.lastAccessTime = currentTime;
             requestCounts.put(ipAddress, limit);
             return true;
         } else {
