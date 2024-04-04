@@ -1,6 +1,9 @@
 package com.gtm.ds.node;
 
+import lombok.Getter;
+
 class Node {
+    @Getter
     int data;
     Node next;
 

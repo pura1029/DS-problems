@@ -3,16 +3,19 @@
  *
  */
 
-package com.gtm.fun;
+package com.gtm.stream.fun;
 
 /**
  * Insert your comment for {@link Add}.
  *
  * @author kumargautam
  */
+@FunctionalInterface
 public interface Add {
 
     int apply(int a, int b);
+
+    //int sub(int a, int b);//Compile time error : Multiple override method found
 }
 
 class AddTest {
