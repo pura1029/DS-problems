@@ -1,5 +1,5 @@
 package com.gtm.ds.arr;
-
+//given a sorted binary array efficiently count the total number of 1’s in it
 public class SortedBinaryArrayCountOnes {
     public static int countOnes(int[] nums) {
         int low = 0, high = nums.length - 1;
