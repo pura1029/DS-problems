@@ -1,4 +1,4 @@
-package com.gtm.ds.arr;
+package com.gtm.ds.arr.v1;
 //given a sorted binary array efficiently count the total number of 1’s in it
 public class SortedBinaryArrayCountOnes {
     public static int countOnes(int[] nums) {

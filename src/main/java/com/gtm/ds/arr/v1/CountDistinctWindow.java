@@ -1,4 +1,4 @@
-package com.gtm.ds.arr;
+package com.gtm.ds.arr.v1;
 
 import java.util.HashMap;
 

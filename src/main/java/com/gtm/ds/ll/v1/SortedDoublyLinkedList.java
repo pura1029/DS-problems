@@ -1,4 +1,4 @@
-package com.gtm.ds.tree;
+package com.gtm.ds.ll.v1;
 
 /**
  * Given a sorted doubly link list and two numbers C and K. You need to decrease the info of node with data K by C and insert the new node formed at its correct position such that the list remains sorted.

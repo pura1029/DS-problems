@@ -3,7 +3,7 @@
  *
  */
 
-package com.gtm.ds.arr.a1;
+package com.gtm.ds.arr.v1;
 
 import java.util.ArrayList;
 import java.util.List;
