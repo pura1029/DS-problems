@@ -10,6 +10,7 @@ public class SortedBinaryArrayCountOnes {
             if (nums[mid] == 0) {
                 low = mid + 1;
             } else {
+                // if there is no 0's in array then mid == 0
                 if (mid == 0 || nums[mid - 1] == 0) { // Check if mid is the first occurrence of 1
                     return nums.length - mid;
                 } else {

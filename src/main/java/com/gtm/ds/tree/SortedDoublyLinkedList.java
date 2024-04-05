@@ -1,5 +1,9 @@
-package com.gtm.ds.ll;
+package com.gtm.ds.tree;
 
+/**
+ * Given a sorted doubly link list and two numbers C and K. You need to decrease the info of node with data K by C and insert the new node formed at its correct position such that the list remains sorted.
+ * Complete working code with test cases was required .
+ */
 class Node {
     int data;
     Node prev, next;
@@ -36,16 +40,17 @@ public class SortedDoublyLinkedList {
         }
 
         if (current != null) {
-            current.data -= C;
-            Node newNode = new Node(current.data);
-            if (current.prev == null) {
-                head = newNode;
+            Node newNode = new Node(current.data - C);
+            Node after = current.next;
+            Node before = current.prev;
+            //if current node is head
+            if (before == null) {
+                head = after;
             } else {
-                current.prev.next = newNode;
-                newNode.prev = current.prev;
+                before.next = after;
+                after.prev = before;
             }
-            newNode.next = current;
-            current.prev = newNode;
+            this.sortedInsert(head, newNode);
         }
     }
 
@@ -64,11 +69,12 @@ public class SortedDoublyLinkedList {
         Node current;
 
         // if list is empty
-        if (head == null)
+        if (head == null) {
             head = newNode;
+        }
 
-            // if the node is to be inserted at the beginning
-            // of the doubly linked list
+        // if the node is to be inserted at the beginning
+        // of the doubly linked list
         else if (head.data >= newNode.data) {
             newNode.next = head;
             newNode.next.prev = newNode;
@@ -79,19 +85,21 @@ public class SortedDoublyLinkedList {
             // locate the node after which the new node
             // is to be inserted
             while (current.next != null &&
-                    current.next.data < newNode.data)
+                    current.next.data < newNode.data) {
                 current = current.next;
+            }
 
             /* Make the appropriate links */
             newNode.next = current.next;
 
             // if the new node is not inserted
             // at the end of the list
-            if (current.next != null)
-                newNode.next.prev = newNode;
+            if (current.next != null) {//2->4->8->10 so insert 3 in b/w 2 and 4
+                newNode.next.prev = newNode;//3->4
+            }
 
-            current.next = newNode;
-            newNode.prev = current;
+            current.next = newNode;//2->3
+            newNode.prev = current;//2->3->4
 
         }
         return head;
