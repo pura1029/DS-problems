@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * https://takeuforward.org/data-structure/length-of-longest-substring-without-any-repeating-character/
  * https://www.youtube.com/watch?v=Uf6YUcbctIk
- *
+ * Sliding window technique
  * @author kumargautam
  */
 public class LongestSubstringWithoutRepeatingCharacters {

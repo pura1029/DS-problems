@@ -3,6 +3,7 @@ package com.gtm.ds.arr.v1;
 import java.util.HashMap;
 
 //https://www.geeksforgeeks.org/count-distinct-elements-in-every-window-of-size-k/
+// Given an array of size N and an integer K, return the count of distinct numbers in all windows of size K.
 public class CountDistinctWindow {
     static void countDistinct(int arr[], int K) {
         // Creates an empty hashMap hM
