@@ -8,3 +8,8 @@ https://workat.tech/
 HLD:
 https://leetcode.com/discuss/interview-question/3092436/Design-Unique-ID-Generator
 https://abheist.com/twitter-snowflake-for-unique-ids/
+
+Spring security:
+https://mkyong.com/spring-boot/spring-rest-spring-security-example/
+https://github.com/mkyong/spring-boot
+https://www.geeksforgeeks.org/spring-security-authentication-providers/
