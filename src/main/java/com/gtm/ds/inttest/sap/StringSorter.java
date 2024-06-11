@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class StringSorter {
     public static void main(String[] args) {
-        List<String> strings = Arrays.asList("apple", "banana", "apple", "orange", "banana", "apple", "pineapple");
+        List<String> strings = Arrays.asList("apple", "banana", "mango", "mango", "pineapple", "banana", "apple", "orange", "mango");
         List<String> sortedStrings = sortByOccurrence(strings);
 
         System.out.println("Sorted strings: " + sortedStrings);
