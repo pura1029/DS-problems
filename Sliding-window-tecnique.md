@@ -491,3 +491,78 @@ public class FruitIntoBaskets {
 ```
 
 These problems and solutions illustrate how the sliding window technique can be effectively applied to a wide range of problems involving arrays and strings.
+
+
+To find the longest subarray containing all 1s using the sliding window approach, we typically use this approach when there are some allowed modifications (like flipping a certain number of 0s to 1s). However, if we are strictly looking for the longest contiguous subarray of 1s without any modifications, the approach simplifies a bit. But for a more generic solution (where you might allow one flip to maximize the length), here’s how you can achieve it:
+
+### Approach:
+1. Use two pointers (`left` and `right`) to represent the window.
+2. Expand the `right` pointer to include more elements in the window.
+3. If a zero is encountered, increase the count of zeros in the current window.
+4. If the count of zeros exceeds the allowed number of flips (for strict all 1s, set allowed flips to 0), move the `left` pointer to the right until the count of zeros is within the allowed limit.
+5. Calculate the length of the current window and update the maximum length accordingly.
+
+### Implementation:
+
+Here's the Java code using a sliding window approach:
+
+```java
+public class LongestSubarrayOfOnes {
+    public static int findLongestSubarrayOfOnes(int[] nums) {
+        int left = 0;
+        int maxLength = 0;
+        int zeroCount = 0;
+        int k = 0; // Allowed number of flips (for strictly all 1s, k should be 0)
+
+        for (int right = 0; right < nums.length; right++) {
+            if (nums[right] == 0) {
+                zeroCount++;
+            }
+
+            while (zeroCount > k) {
+                if (nums[left] == 0) {
+                    zeroCount--;
+                }
+                left++;
+            }
+
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+        int[] nums1 = {1, 1, 0, 1, 1, 1};
+        int[] nums2 = {1, 0, 1, 1, 0, 1};
+
+        System.out.println("Longest subarray of 1s in nums1: " + findLongestSubarrayOfOnes(nums1)); // Output: 3
+        System.out.println("Longest subarray of 1s in nums2: " + findLongestSubarrayOfOnes(nums2)); // Output: 2
+    }
+}
+```
+
+### Explanation:
+
+1. **Initialization**:
+   - `left` pointer is initialized to 0, which marks the beginning of the sliding window.
+   - `maxLength` to keep track of the maximum length of the subarray of 1s found.
+   - `zeroCount` to keep track of the number of zeros in the current window.
+   - `k` is set to 0, meaning no flips are allowed (for strictly finding all 1s).
+
+2. **Sliding Window Expansion**:
+   - Iterate through the array using the `right` pointer.
+   - When a zero is encountered, increment the `zeroCount`.
+
+3. **Sliding Window Contraction**:
+   - If the `zeroCount` exceeds the allowed number of flips (`k`), move the `left` pointer to the right until the `zeroCount` is within the allowed limit.
+
+4. **Updating Maximum Length**:
+   - Update `maxLength` with the length of the current valid window (`right - left + 1`).
+
+5. **Main Method**:
+   - Test the function with example arrays and print the results.
+
+This sliding window approach ensures that we efficiently find the longest subarray of 1s by maintaining a window of valid subarrays.
+
+
