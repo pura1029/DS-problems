@@ -493,6 +493,52 @@ public class FruitIntoBaskets {
 These problems and solutions illustrate how the sliding window technique can be effectively applied to a wide range of problems involving arrays and strings.
 
 
+To find the longest subarray containing all 1s in a binary array, you can use a sliding window approach. This approach is efficient with a time complexity of O(n), where n is the length of the array. Here's the Java code to achieve this:
+
+```java
+public class LongestSubarrayOfOnes {
+    public static int findLongestSubarrayOfOnes(int[] nums) {
+        int maxLength = 0;
+        int currentLength = 0;
+        
+        for (int num : nums) {
+            if (num == 1) {
+                currentLength++;
+                maxLength = Math.max(maxLength, currentLength);
+            } else {
+                currentLength = 0;
+            }
+        }
+        
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+        int[] nums1 = {1, 1, 0, 1, 1, 1};
+        int[] nums2 = {1, 0, 1, 1, 0, 1};
+
+        System.out.println("Longest subarray of 1s in nums1: " + findLongestSubarrayOfOnes(nums1)); // Output: 3
+        System.out.println("Longest subarray of 1s in nums2: " + findLongestSubarrayOfOnes(nums2)); // Output: 2
+    }
+}
+```
+
+### Explanation:
+
+1. **findLongestSubarrayOfOnes Method**:
+   - This method takes a binary array `nums` as input and returns the length of the longest subarray containing all 1s.
+   - `maxLength` keeps track of the longest subarray of 1s found so far.
+   - `currentLength` keeps track of the current subarray of 1s as the array is iterated.
+   - The method iterates through the array:
+     - If the current element is 1, `currentLength` is incremented and `maxLength` is updated if `currentLength` exceeds the previous `maxLength`.
+     - If the current element is 0, `currentLength` is reset to 0.
+
+2. **Main Method**:
+   - This method tests the `findLongestSubarrayOfOnes` method with example binary arrays.
+   - It prints the length of the longest subarray of 1s for each example array.
+
+This approach efficiently finds the longest subarray of 1s by maintaining a running count of consecutive 1s and updating the maximum length when necessary.
+
 To find the longest subarray containing all 1s using the sliding window approach, we typically use this approach when there are some allowed modifications (like flipping a certain number of 0s to 1s). However, if we are strictly looking for the longest contiguous subarray of 1s without any modifications, the approach simplifies a bit. But for a more generic solution (where you might allow one flip to maximize the length), here’s how you can achieve it:
 
 ### Approach:
@@ -565,4 +611,109 @@ public class LongestSubarrayOfOnes {
 
 This sliding window approach ensures that we efficiently find the longest subarray of 1s by maintaining a window of valid subarrays.
 
+Anagrams are strings that can be formed by rearranging the characters of another string using all the original characters exactly once. For example, "listen" and "silent" are anagrams of each other. Here’s how you can work with anagrams in Java, including checking if two strings are anagrams and finding all anagrams of a string within another string.
 
+### 1. Checking if Two Strings are Anagrams
+
+To check if two strings are anagrams, you can sort the characters of both strings and compare them. If they are the same, then the strings are anagrams.
+
+```java
+import java.util.Arrays;
+
+public class AnagramChecker {
+    public static boolean areAnagrams(String s1, String s2) {
+        if (s1.length() != s2.length()) {
+            return false;
+        }
+        
+        char[] arr1 = s1.toCharArray();
+        char[] arr2 = s2.toCharArray();
+        
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+        
+        return Arrays.equals(arr1, arr2);
+    }
+
+    public static void main(String[] args) {
+        String s1 = "listen";
+        String s2 = "silent";
+
+        System.out.println("Are anagrams: " + areAnagrams(s1, s2)); // Output: true
+    }
+}
+```
+
+### 2. Finding All Anagrams of a String Within Another String
+
+To find all anagrams of a string within another string, you can use a sliding window approach with a frequency counter to keep track of the character counts.
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class AnagramFinder {
+    public static List<Integer> findAnagrams(String s, String p) {
+        List<Integer> result = new ArrayList<>();
+        if (s.length() < p.length()) {
+            return result;
+        }
+
+        int[] pCount = new int[26];
+        int[] sCount = new int[26];
+
+        // Count frequency of characters in p
+        for (char c : p.toCharArray()) {
+            pCount[c - 'a']++;
+        }
+
+        // Initial window
+        for (int i = 0; i < p.length(); i++) {
+            sCount[s.charAt(i) - 'a']++;
+        }
+
+        // Sliding window
+        for (int i = p.length(); i < s.length(); i++) {
+            if (Arrays.equals(pCount, sCount)) {
+                result.add(i - p.length());
+            }
+            sCount[s.charAt(i) - 'a']++;
+            sCount[s.charAt(i - p.length()) - 'a']--;
+        }
+
+        // Check the last window
+        if (Arrays.equals(pCount, sCount)) {
+            result.add(s.length() - p.length());
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        String s = "cbaebabacd";
+        String p = "abc";
+
+        List<Integer> anagramIndices = findAnagrams(s, p);
+        System.out.println("Anagram indices: " + anagramIndices); // Output: [0, 6]
+    }
+}
+```
+
+### Explanation:
+
+1. **Checking if Two Strings are Anagrams**:
+   - Convert both strings to character arrays.
+   - Sort the character arrays.
+   - Compare the sorted arrays. If they are equal, the strings are anagrams.
+
+2. **Finding All Anagrams of a String Within Another String**:
+   - Use two frequency arrays `pCount` and `sCount` to keep track of character counts for the target string `p` and the current window in `s`.
+   - Populate `pCount` with the character counts of `p`.
+   - Populate `sCount` with the character counts of the initial window of length `p` in `s`.
+   - Slide the window one character at a time:
+     - If the frequency arrays match, the starting index of the current window is an anagram.
+     - Update the `sCount` array by adding the next character in the window and removing the first character of the previous window.
+   - Finally, check the last window after the loop.
+
+This approach efficiently finds all anagrams by maintaining a sliding window and comparing character counts.
