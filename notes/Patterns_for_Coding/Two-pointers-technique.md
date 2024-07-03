@@ -496,3 +496,90 @@ public int numSubarrayProductLessThanK(int[] nums, int k) {
 
 These additional examples highlight the versatility of the two pointers technique for solving a variety of problems involving arrays and strings.
 
+To compare two strings that contain backspaces (represented by the character `#`), you need to simulate the typing process to get the final version of both strings and then compare these final versions.
+
+Here's how you can do it using the two pointers technique:
+
+### Problem
+Given two strings `S` and `T`, return if they are equal when both are typed into empty text editors. `#` means a backspace character.
+
+### Solution
+1. Use two pointers to traverse both strings from the end to the beginning.
+2. Skip characters in both strings when a backspace is encountered.
+3. Compare the characters at the current positions of the pointers.
+
+Here's the Java code implementing this solution:
+
+```java
+public class BackspaceStringCompare {
+    public static void main(String[] args) {
+        String S = "ab#c";
+        String T = "ad#c";
+        System.out.println(backspaceCompare(S, T)); // Output: true
+
+        S = "ab##";
+        T = "c#d#";
+        System.out.println(backspaceCompare(S, T)); // Output: true
+
+        S = "a##c";
+        T = "#a#c";
+        System.out.println(backspaceCompare(S, T)); // Output: true
+
+        S = "a#c";
+        T = "b";
+        System.out.println(backspaceCompare(S, T)); // Output: false
+    }
+
+    public static boolean backspaceCompare(String S, String T) {
+        int i = S.length() - 1;
+        int j = T.length() - 1;
+
+        while (i >= 0 || j >= 0) {
+            i = getNextValidIndex(S, i);
+            j = getNextValidIndex(T, j);
+
+            if (i < 0 && j < 0) return true; // Both strings have been fully processed
+            if (i < 0 || j < 0) return false; // One string has been fully processed while the other has not
+            if (S.charAt(i) != T.charAt(j)) return false; // Characters do not match
+
+            i--;
+            j--;
+        }
+
+        return true;
+    }
+
+    private static int getNextValidIndex(String str, int index) {
+        int backspaceCount = 0;
+
+        while (index >= 0) {
+            if (str.charAt(index) == '#') {
+                backspaceCount++;
+            } else if (backspaceCount > 0) {
+                backspaceCount--;
+            } else {
+                break;
+            }
+            index--;
+        }
+
+        return index;
+    }
+}
+```
+
+### Explanation
+
+1. **getNextValidIndex**: This helper function returns the next valid index in the string by skipping over any characters that should be deleted due to backspaces.
+    - If a `#` is encountered, increment the `backspaceCount`.
+    - If a non-`#` character is encountered and `backspaceCount` is greater than 0, decrement the `backspaceCount` (indicating this character should be skipped).
+    - If a non-`#` character is encountered and `backspaceCount` is 0, this is a valid character.
+
+2. **backspaceCompare**: This function uses the two pointers technique to compare the final versions of the strings.
+    - Start from the end of both strings and use the `getNextValidIndex` function to find the next valid character index in each string.
+    - Compare the characters at these indices. If they differ, return `false`.
+    - Continue moving the pointers to the left and repeat the comparison until both pointers are processed.
+    - If both pointers are processed without finding any mismatch, return `true`.
+
+This solution ensures that both strings are processed correctly considering the backspaces, and then compared efficiently.
+
