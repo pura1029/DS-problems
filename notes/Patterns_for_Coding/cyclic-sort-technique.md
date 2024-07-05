@@ -1,598 +1,1016 @@
-Cyclic sort is a technique used to sort an array of integers that are supposed to be in the range 1 to N (where N is the size of the array). Here's how it works in Java:
+Cyclic sort is an efficient sorting algorithm used mainly for arrays where the elements are in a range from `1` to `N`. The idea is to place each element in its correct position in a single traversal of the array. It works on the principle that if an element is not in its correct position, it can be placed directly in its correct position by swapping it with the element currently at that position. This process is repeated until all elements are in their correct positions.
 
-1. **Understanding the Technique**:
-    - Cyclic sort works by placing each number in its correct position in the array. For example, if you have an array with elements from 1 to N, after sorting, the first element will contain 1, the second element will contain 2, and so on.
+### Steps of Cyclic Sort:
 
-2. **Implementation Steps**:
-    - Start iterating through the array.
-    - For each element at index i, check if it is in the correct position (i.e., array[i] should be equal to i + 1 for 0-based indexing).
-    - If it is not in the correct position, swap it with the element at the position array[i] - 1 (because array indices are 0-based but the numbers are 1-based).
-    - Repeat until all elements are in their correct positions.
+1. **Initialize a pointer** to iterate through the array.
+2. **While the pointer is within the bounds** of the array:
+    - **Check if the current element is at its correct position** (i.e., `arr[i] == i + 1`).
+    - If it is, move to the next element.
+    - If it is not, **swap the element with the element at its correct position** (i.e., `arr[arr[i] - 1]`).
+3. Repeat this process until all elements are in their correct positions.
 
-3. **Java Code Example**:
-   Here’s a simple Java code example to demonstrate cyclic sort:
+### Example in Java:
 
-   ```java
-   public class CyclicSort {
-       public static void sort(int[] nums) {
-           int i = 0;
-           while (i < nums.length) {
-               if (nums[i] != nums[nums[i] - 1]) { // Check if the current element is in the correct position
-                   // Swap nums[i] with nums[nums[i] - 1]
-                   int temp = nums[nums[i] - 1];
-                   nums[nums[i] - 1] = nums[i];
-                   nums[i] = temp;
-               } else {
-                   i++;
-               }
-           }
-       }
+Here is a simple Java implementation of Cyclic Sort:
 
-       public static void main(String[] args) {
-           int[] arr = {3, 1, 5, 4, 2}; // Example array
-           sort(arr);
-           for (int num : arr) {
-               System.out.print(num + " ");
-           }
-       }
-   }
-   ```
+```java
+public class CyclicSort {
+    public static void cyclicSort(int[] arr) {
+        int i = 0;
+        while (i < arr.length) {
+            int correctIndex = arr[i] - 1;
+            if (arr[i] != arr[correctIndex]) {
+                // Swap arr[i] with arr[correctIndex]
+                int temp = arr[i];
+                arr[i] = arr[correctIndex];
+                arr[correctIndex] = temp;
+            } else {
+                i++;
+            }
+        }
+    }
 
-4. **Explanation of the Example**:
-    - In this example, `sort(int[] nums)` method implements the cyclic sort algorithm.
-    - The `while` loop runs until all elements are in their correct positions.
-    - Inside the loop, if the current element is not in its correct position, it swaps with the element at the correct position.
-    - Finally, the sorted array is printed.
+    public static void main(String[] args) {
+        int[] arr = {3, 1, 5, 4, 2};
+        cyclicSort(arr);
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+    }
+}
+```
 
-5. **Complexity**:
-    - Time Complexity: O(N) where N is the number of elements in the array, because each element is placed in its correct position in constant time.
-    - Space Complexity: O(1), because the sorting is done in-place without using any extra space apart from a few variables.
+### Explanation:
 
-Cyclic sort is particularly useful when you need to sort an array where elements are supposed to be in a specific range, such as 1 to N, and can be very efficient in such cases.
+1. **Initialization**: Start with the first element in the array (`i = 0`).
+2. **Check Position**: Determine if the current element `arr[i]` is in the correct position by comparing it to `i + 1`.
+3. **Swap if Necessary**: If `arr[i]` is not in its correct position, swap it with the element at its target position (`arr[arr[i] - 1]`).
+4. **Continue**: If `arr[i]` is in the correct position, move to the next element.
+5. **Repeat**: Continue this process until the entire array is sorted.
 
-Certainly! The cyclic sort technique is particularly useful for problems where you have an array of integers that are supposed to be in a specific range or permutation. Here are some common problems that can be solved using cyclic sort along with their solutions:
+### Key Points:
 
-1. **Find the Duplicate Number**:
-    - **Problem**: Given an array of integers nums containing n + 1 integers where each integer is between 1 and n (inclusive), find the duplicate number.
-    - **Solution**: Use cyclic sort to place each number in its correct position. The first number that fails to move to its correct position is the duplicate.
-      ```java
-      public int findDuplicate(int[] nums) {
-          int i = 0;
-          while (i < nums.length) {
-              if (nums[i] != nums[nums[i] - 1]) {
-                  // Swap nums[i] with nums[nums[i] - 1]
-                  int temp = nums[nums[i] - 1];
-                  nums[nums[i] - 1] = nums[i];
-                  nums[i] = temp;
-              } else {
-                  i++;
-              }
-          }
-          for (i = 0; i < nums.length; i++) {
-              if (nums[i] != i + 1) {
-                  return nums[i];
-              }
-          }
-          return -1; // Not found (shouldn't reach here as per problem constraints)
-      }
-      ```
+- Cyclic sort is especially useful for sorting arrays where elements are in the range from `1` to `N`.
+- The algorithm runs in \(O(N)\) time complexity, making it very efficient.
+- It sorts the array in place with \(O(1)\) additional space, making it space-efficient.
 
-2. **Find All Missing Numbers in an Array**:
-    - **Problem**: Given an array of integers where 1 ≤ a[i] ≤ n (n is the size of the array), some elements appear twice and others appear once. Find all the elements of [1, n] inclusive that do not appear in this array.
-    - **Solution**: Similar to above, use cyclic sort to find and collect all missing numbers.
-      ```java
-      public List<Integer> findDisappearedNumbers(int[] nums) {
-          List<Integer> missing = new ArrayList<>();
-          int i = 0;
-          while (i < nums.length) {
-              if (nums[i] != nums[nums[i] - 1]) {
-                  // Swap nums[i] with nums[nums[i] - 1]
-                  int temp = nums[nums[i] - 1];
-                  nums[nums[i] - 1] = nums[i];
-                  nums[i] = temp;
-              } else {
-                  i++;
-              }
-          }
-          for (i = 0; i < nums.length; i++) {
-              if (nums[i] != i + 1) {
-                  missing.add(i + 1);
-              }
-          }
-          return missing;
-      }
-      ```
+This sorting technique is quite intuitive and straightforward to implement, especially for arrays with a fixed range of elements.
 
-3. **Sort Colors (Dutch National Flag Problem)**:
-    - **Problem**: Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
-    - **Solution**: Use cyclic sort to partition the array into three sections.
-      ```java
-      public void sortColors(int[] nums) {
-          int i = 0, left = 0, right = nums.length - 1;
-          while (i <= right) {
-              if (nums[i] == 0) {
-                  // Swap nums[i] with nums[left]
-                  int temp = nums[left];
-                  nums[left] = nums[i];
-                  nums[i] = temp;
-                  left++;
-                  i++;
-              } else if (nums[i] == 2) {
-                  // Swap nums[i] with nums[right]
-                  int temp = nums[right];
-                  nums[right] = nums[i];
-                  nums[i] = temp;
-                  right--;
-              } else {
-                  i++;
-              }
-          }
-      }
-      ```
+Sure, here are some common problems that can be efficiently solved using the Cyclic sort technique along with their solutions:
 
-4. **Find the Missing Positive**:
-    - **Problem**: Given an unsorted integer array nums, find the smallest missing positive integer.
-    - **Solution**: Use cyclic sort to rearrange the array so that nums[i] equals i + 1. Then, iterate through to find the first missing positive.
-      ```java
-      public int firstMissingPositive(int[] nums) {
-          int i = 0;
-          while (i < nums.length) {
-              if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
-                  // Swap nums[i] with nums[nums[i] - 1]
-                  int temp = nums[nums[i] - 1];
-                  nums[nums[i] - 1] = nums[i];
-                  nums[i] = temp;
-              } else {
-                  i++;
-              }
-          }
-          for (i = 0; i < nums.length; i++) {
-              if (nums[i] != i + 1) {
-                  return i + 1;
-              }
-          }
-          return nums.length + 1;
-      }
-      ```
+### 1. Find the Missing Number
 
-These examples demonstrate how cyclic sort can be applied effectively to solve a variety of array-related problems where elements are expected to be in a specific range or order.
+#### Problem:
+Given an array containing N distinct numbers taken from the range 0 to N. Since the array has only N numbers, one number is missing. Find the missing number.
 
-Certainly! The cyclic sort technique is particularly useful for problems where you have an array of integers that are supposed to be in a specific range or permutation. Here are some common problems that can be solved using cyclic sort along with their solutions:
+#### Solution:
+```java
+public class MissingNumber {
+    public static int findMissingNumber(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] < nums.length && nums[i] != nums[nums[i]]) {
+                int temp = nums[nums[i]];
+                nums[nums[i]] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
 
-1. **Find the Duplicate Number**:
-    - **Problem**: Given an array of integers nums containing n + 1 integers where each integer is between 1 and n (inclusive), find the duplicate number.
-    - **Solution**: Use cyclic sort to place each number in its correct position. The first number that fails to move to its correct position is the duplicate.
-      ```java
-      public int findDuplicate(int[] nums) {
-          int i = 0;
-          while (i < nums.length) {
-              if (nums[i] != nums[nums[i] - 1]) {
-                  // Swap nums[i] with nums[nums[i] - 1]
-                  int temp = nums[nums[i] - 1];
-                  nums[nums[i] - 1] = nums[i];
-                  nums[i] = temp;
-              } else {
-                  i++;
-              }
-          }
-          for (i = 0; i < nums.length; i++) {
-              if (nums[i] != i + 1) {
-                  return nums[i];
-              }
-          }
-          return -1; // Not found (shouldn't reach here as per problem constraints)
-      }
-      ```
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i) {
+                return i;
+            }
+        }
+        return nums.length;
+    }
 
-2. **Find All Missing Numbers in an Array**:
-    - **Problem**: Given an array of integers where 1 ≤ a[i] ≤ n (n is the size of the array), some elements appear twice and others appear once. Find all the elements of [1, n] inclusive that do not appear in this array.
-    - **Solution**: Similar to above, use cyclic sort to find and collect all missing numbers.
-      ```java
-      public List<Integer> findDisappearedNumbers(int[] nums) {
-          List<Integer> missing = new ArrayList<>();
-          int i = 0;
-          while (i < nums.length) {
-              if (nums[i] != nums[nums[i] - 1]) {
-                  // Swap nums[i] with nums[nums[i] - 1]
-                  int temp = nums[nums[i] - 1];
-                  nums[nums[i] - 1] = nums[i];
-                  nums[i] = temp;
-              } else {
-                  i++;
-              }
-          }
-          for (i = 0; i < nums.length; i++) {
-              if (nums[i] != i + 1) {
-                  missing.add(i + 1);
-              }
-          }
-          return missing;
-      }
-      ```
+    public static void main(String[] args) {
+        int[] arr = {3, 0, 1};
+        System.out.println("Missing number: " + findMissingNumber(arr)); // Output: 2
+    }
+}
+```
 
-3. **Sort Colors (Dutch National Flag Problem)**:
-    - **Problem**: Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
-    - **Solution**: Use cyclic sort to partition the array into three sections.
-      ```java
-      public void sortColors(int[] nums) {
-          int i = 0, left = 0, right = nums.length - 1;
-          while (i <= right) {
-              if (nums[i] == 0) {
-                  // Swap nums[i] with nums[left]
-                  int temp = nums[left];
-                  nums[left] = nums[i];
-                  nums[i] = temp;
-                  left++;
-                  i++;
-              } else if (nums[i] == 2) {
-                  // Swap nums[i] with nums[right]
-                  int temp = nums[right];
-                  nums[right] = nums[i];
-                  nums[i] = temp;
-                  right--;
-              } else {
-                  i++;
-              }
-          }
-      }
-      ```
+### 2. Find All Missing Numbers
 
-4. **Find the Missing Positive**:
-    - **Problem**: Given an unsorted integer array nums, find the smallest missing positive integer.
-    - **Solution**: Use cyclic sort to rearrange the array so that nums[i] equals i + 1. Then, iterate through to find the first missing positive.
-      ```java
-      public int firstMissingPositive(int[] nums) {
-          int i = 0;
-          while (i < nums.length) {
-              if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
-                  // Swap nums[i] with nums[nums[i] - 1]
-                  int temp = nums[nums[i] - 1];
-                  nums[nums[i] - 1] = nums[i];
-                  nums[i] = temp;
-              } else {
-                  i++;
-              }
-          }
-          for (i = 0; i < nums.length; i++) {
-              if (nums[i] != i + 1) {
-                  return i + 1;
-              }
-          }
-          return nums.length + 1;
-      }
-      ```
+#### Problem:
+Given an array of integers where 1 ≤ a[i] ≤ n (n = size of the array), some elements appear twice and others appear once. Find all the elements from 1 to n that are missing from the array.
 
-These examples demonstrate how cyclic sort can be applied effectively to solve a variety of array-related problems where elements are expected to be in a specific range or order.
+#### Solution:
+```java
+import java.util.*;
 
-Certainly! Here are more problems that can be effectively solved using the cyclic sort technique:
+public class AllMissingNumbers {
+    public static List<Integer> findDisappearedNumbers(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
 
-5. **Find All Duplicate Numbers in an Array**:
-    - **Problem**: Given an array of integers nums containing n integers where each integer is between 1 and n, count all the duplicate numbers.
-    - **Solution**: Use cyclic sort to find and count duplicate numbers.
-      ```java
-      public List<Integer> findDuplicates(int[] nums) {
-          List<Integer> duplicates = new ArrayList<>();
-          int i = 0;
-          while (i < nums.length) {
-              if (nums[i] != nums[nums[i] - 1]) {
-                  // Swap nums[i] with nums[nums[i] - 1]
-                  int temp = nums[nums[i] - 1];
-                  nums[nums[i] - 1] = nums[i];
-                  nums[i] = temp;
-              } else {
-                  i++;
-              }
-          }
-          for (i = 0; i < nums.length; i++) {
-              if (nums[i] != i + 1) {
-                  duplicates.add(nums[i]);
-              }
-          }
-          return duplicates;
-      }
-      ```
+        List<Integer> result = new ArrayList<>();
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                result.add(i + 1);
+            }
+        }
+        return result;
+    }
 
-6. **Find the Smallest Missing Positive Integer**:
-    - **Problem**: Given an unsorted integer array nums, find the smallest missing positive integer.
-    - **Solution**: Use cyclic sort to move each positive integer to its correct position and then find the first missing positive.
-      ```java
-      public int firstMissingPositive(int[] nums) {
-          int i = 0;
-          while (i < nums.length) {
-              if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
-                  // Swap nums[i] with nums[nums[i] - 1]
-                  int temp = nums[nums[i] - 1];
-                  nums[nums[i] - 1] = nums[i];
-                  nums[i] = temp;
-              } else {
-                  i++;
-              }
-          }
-          for (i = 0; i < nums.length; i++) {
-              if (nums[i] != i + 1) {
-                  return i + 1;
-              }
-          }
-          return nums.length + 1;
-      }
-      ```
+    public static void main(String[] args) {
+        int[] arr = {4, 3, 2, 7, 8, 2, 3, 1};
+        System.out.println("Missing numbers: " + findDisappearedNumbers(arr)); // Output: [5, 6]
+    }
+}
+```
 
-7. **Find All Missing and Duplicate Numbers**:
-    - **Problem**: Given an array of integers where 1 ≤ a[i] ≤ n (n is the size of the array), some elements appear twice and others appear once. Find all the missing and duplicate numbers.
-    - **Solution**: Use cyclic sort to identify all missing and duplicate numbers in the array.
-      ```java
-      public List<List<Integer>> findMissingAndDuplicates(int[] nums) {
-          List<Integer> missing = new ArrayList<>();
-          List<Integer> duplicates = new ArrayList<>();
-          int i = 0;
-          while (i < nums.length) {
-              if (nums[i] != nums[nums[i] - 1]) {
-                  // Swap nums[i] with nums[nums[i] - 1]
-                  int temp = nums[nums[i] - 1];
-                  nums[nums[i] - 1] = nums[i];
-                  nums[i] = temp;
-              } else {
-                  i++;
-              }
-          }
-          for (i = 0; i < nums.length; i++) {
-              if (nums[i] != i + 1) {
-                  duplicates.add(nums[i]);
-                  missing.add(i + 1);
-              }
-          }
-          List<List<Integer>> result = new ArrayList<>();
-          result.add(missing);
-          result.add(duplicates);
-          return result;
-      }
-      ```
+### 3. Find the Duplicate Number
 
-8. **Find the First K Missing Positive Numbers**:
-    - **Problem**: Given an unsorted integer array nums, find the first K missing positive numbers.
-    - **Solution**: Use cyclic sort to rearrange the array so that nums[i] equals i + 1 and collect the first K missing positive numbers.
-      ```java
-      public List<Integer> findFirstKMissingPositive(int[] nums, int k) {
-          List<Integer> missing = new ArrayList<>();
-          int i = 0;
-          while (i < nums.length) {
-              if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
-                  // Swap nums[i] with nums[nums[i] - 1]
-                  int temp = nums[nums[i] - 1];
-                  nums[nums[i] - 1] = nums[i];
-                  nums[i] = temp;
-              } else {
-                  i++;
-              }
-          }
-          i = 0;
-          int count = 0;
-          while (count < k && i < nums.length) {
-              if (nums[i] != i + 1) {
-                  missing.add(i + 1);
-                  count++;
-              }
-              i++;
-          }
-          while (count < k) {
-              missing.add(++i);
-              count++;
-          }
-          return missing;
-      }
-      ```
+#### Problem:
+Given an array of integers containing `n + 1` integers where each integer is in the range `[1, n]` inclusive. There is only one repeated number in the array. Find the duplicate number.
 
-These additional examples showcase the versatility of cyclic sort for solving array-related problems efficiently, especially when elements are constrained within a specific range or permutation.
+#### Solution:
+```java
+public class DuplicateNumber {
+    public static int findDuplicate(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] != i + 1) {
+                if (nums[i] != nums[nums[i] - 1]) {
+                    int temp = nums[nums[i] - 1];
+                    nums[nums[i] - 1] = nums[i];
+                    nums[i] = temp;
+                } else {
+                    return nums[i];
+                }
+            } else {
+                i++;
+            }
+        }
+        return -1;
+    }
 
-Certainly! Here are a few more problems that can be effectively solved using the cyclic sort technique:
+    public static void main(String[] args) {
+        int[] arr = {3, 1, 3, 4, 2};
+        System.out.println("Duplicate number: " + findDuplicate(arr)); // Output: 3
+    }
+}
+```
 
-9. **Find All Numbers Disappeared in an Array**:
-    - **Problem**: Given an array of integers where 1 ≤ a[i] ≤ n (n is the size of the array), some elements appear once and others appear twice. Find all the elements of [1, n] inclusive that do not appear in this array.
-    - **Solution**: Use cyclic sort to find and collect all missing numbers.
-      ```java
-      public List<Integer> findDisappearedNumbers(int[] nums) {
-          List<Integer> missing = new ArrayList<>();
-          int i = 0;
-          while (i < nums.length) {
-              if (nums[i] != nums[nums[i] - 1]) {
-                  // Swap nums[i] with nums[nums[i] - 1]
-                  int temp = nums[nums[i] - 1];
-                  nums[nums[i] - 1] = nums[i];
-                  nums[i] = temp;
-              } else {
-                  i++;
-              }
-          }
-          for (i = 0; i < nums.length; i++) {
-              if (nums[i] != i + 1) {
-                  missing.add(i + 1);
-              }
-          }
-          return missing;
-      }
-      ```
+### 4. Find All Duplicates
 
-10. **Find All K-Length Subarrays with Maximum Sum**:
-    - **Problem**: Given an array of integers, find all subarrays of length k with the maximum sum.
-    - **Solution**: Use cyclic sort to efficiently compute the sum of each k-length subarray.
-      ```java
-      public List<int[]> findMaxSumSubarrays(int[] nums, int k) {
-          List<int[]> result = new ArrayList<>();
-          int maxSum = Integer.MIN_VALUE;
-          int currentSum = 0;
-          int startIndex = 0;
+#### Problem:
+Given an integer array of size `n` where all the integers are in the range `[1, n]` inclusive, some elements appear twice, and others appear once. Find all the elements that appear twice.
 
-          // Calculate sum of the first window
-          for (int i = 0; i < k; i++) {
-              currentSum += nums[i];
-          }
-          maxSum = currentSum;
-          result.add(new int[]{startIndex, startIndex + k - 1});
+#### Solution:
+```java
+import java.util.*;
 
-          // Slide window and calculate sum for remaining subarrays
-          for (int i = k; i < nums.length; i++) {
-              currentSum += nums[i] - nums[i - k]; // slide window
-              if (currentSum > maxSum) {
-                  maxSum = currentSum;
-                  startIndex = i - k + 1;
-                  result.clear();
-                  result.add(new int[]{startIndex, startIndex + k - 1});
-              } else if (currentSum == maxSum) {
-                  result.add(new int[]{i - k + 1, i});
-              }
-          }
+public class AllDuplicates {
+    public static List<Integer> findDuplicates(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
 
-          return result;
-      }
-      ```
+        List<Integer> result = new ArrayList<>();
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                result.add(nums[i]);
+            }
+        }
+        return result;
+    }
 
-11. **Sort an Almost Sorted Array (K-sorted array)**:
-    - **Problem**: Given an array where each element is at most k positions away from its sorted position, sort the array.
-    - **Solution**: Use cyclic sort to maintain a window of k elements and sort each window individually.
-      ```java
-      public void sortKSortedArray(int[] nums, int k) {
-          PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-          // Insert first k elements into min heap
-          for (int i = 0; i <= k && i < nums.length; i++) {
-              minHeap.offer(nums[i]);
-          }
-          int index = 0;
-          for (int i = k + 1; i < nums.length; i++) {
-              nums[index++] = minHeap.poll(); // remove smallest element
-              minHeap.offer(nums[i]); // add next element to heap
-          }
-          // Extract remaining elements from heap
-          while (!minHeap.isEmpty()) {
-              nums[index++] = minHeap.poll();
-          }
-      }
-      ```
+    public static void main(String[] args) {
+        int[] arr = {4, 3, 2, 7, 8, 2, 3, 1};
+        System.out.println("Duplicate numbers: " + findDuplicates(arr)); // Output: [2, 3]
+    }
+}
+```
 
-12. **Find the Kth Missing Positive Number**:
-    - **Problem**: Given an array arr of positive integers sorted in a strictly increasing order, and an integer k, find the kth missing positive integer.
-    - **Solution**: Use cyclic sort to identify and count missing positive integers until you reach the kth missing positive integer.
-      ```java
-      public int findKthMissingPositive(int[] arr, int k) {
-          int i = 0, missingCount = 0, num = 1;
+### 5. First Missing Positive
 
-          while (missingCount < k) {
-              if (i < arr.length && arr[i] == num) {
-                  i++;
-              } else {
-                  missingCount++;
-              }
-              if (missingCount == k) {
-                  return num;
-              }
-              num++;
-          }
-          return -1; // Shouldn't reach here based on problem constraints
-      }
-      ```
+#### Problem:
+Given an unsorted integer array, find the smallest missing positive integer.
 
-These problems illustrate different applications of the cyclic sort technique, demonstrating its effectiveness in solving array-related challenges efficiently.
+#### Solution:
+```java
+public class FirstMissingPositive {
+    public static int firstMissingPositive(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
 
-Certainly! Here are a few more problems that can be effectively solved using the cyclic sort technique:
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return nums.length + 1;
+    }
 
-13. **Find the Minimum Swaps Required to Sort an Array**:
-    - **Problem**: Given an array of integers, find the minimum number of adjacent swaps required to sort the array in ascending order.
-    - **Solution**: Use cyclic sort to count the number of swaps needed to sort the array.
-      ```java
-      public int minSwaps(int[] nums) {
-          int swaps = 0, i = 0;
-          while (i < nums.length) {
-              if (nums[i] != i + 1) {
-                  int temp = nums[i];
-                  nums[i] = nums[temp - 1];
-                  nums[temp - 1] = temp;
-                  swaps++;
-              } else {
-                  i++;
-              }
-          }
-          return swaps;
-      }
-      ```
+    public static void main(String[] args) {
+        int[] arr = {3, 4, -1, 1};
+        System.out.println("First missing positive: " + firstMissingPositive(arr)); // Output: 2
+    }
+}
+```
 
-14. **Find All Unique Triplets that Sum to Zero**:
-    - **Problem**: Given an array nums of n integers, find all unique triplets in the array which gives the sum of zero.
-    - **Solution**: Use cyclic sort along with two-pointer technique to find triplets that sum to zero.
-      ```java
-      public List<List<Integer>> threeSum(int[] nums) {
-          List<List<Integer>> result = new ArrayList<>();
-          Arrays.sort(nums);
-          for (int i = 0; i < nums.length - 2; i++) {
-              if (i == 0 || (i > 0 && nums[i] != nums[i - 1])) {
-                  int lo = i + 1, hi = nums.length - 1, sum = -nums[i];
-                  while (lo < hi) {
-                      if (nums[lo] + nums[hi] == sum) {
-                          result.add(Arrays.asList(nums[i], nums[lo], nums[hi]));
-                          while (lo < hi && nums[lo] == nums[lo + 1]) lo++;
-                          while (lo < hi && nums[hi] == nums[hi - 1]) hi--;
-                          lo++;
-                          hi--;
-                      } else if (nums[lo] + nums[hi] < sum) {
-                          lo++;
-                      } else {
-                          hi--;
-                      }
-                  }
-              }
-          }
-          return result;
-      }
-      ```
+These problems illustrate the versatility and efficiency of the Cyclic sort technique for handling various types of sorting and searching problems within a constrained range.
 
-15. **Find the Smallest Positive Missing Integer**:
-    - **Problem**: Given an unsorted integer array nums, find the smallest positive integer that does not exist in the array.
-    - **Solution**: Use cyclic sort to rearrange the array so that nums[i] equals i + 1, then iterate to find the smallest missing positive integer.
-      ```java
-      public int firstMissingPositive(int[] nums) {
-          int i = 0;
-          while (i < nums.length) {
-              if (nums[i] > 0 && nums[i] <= nums.length && nums[nums[i] - 1] != nums[i]) {
-                  int temp = nums[nums[i] - 1];
-                  nums[nums[i] - 1] = nums[i];
-                  nums[i] = temp;
-              } else {
-                  i++;
-              }
-          }
-          for (i = 0; i < nums.length; i++) {
-              if (nums[i] != i + 1) {
-                  return i + 1;
-              }
-          }
-          return nums.length + 1;
-      }
-      ```
+Sure, here are a few more problems that can be solved using the Cyclic sort technique, along with their solutions:
 
-16. **Sort an Array of 0s, 1s, and 2s (Dutch National Flag Problem)**:
-    - **Problem**: Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order 0, 1, and 2.
-    - **Solution**: Use cyclic sort to partition the array into three sections.
-      ```java
-      public void sortColors(int[] nums) {
-          int i = 0, left = 0, right = nums.length - 1;
-          while (i <= right) {
-              if (nums[i] == 0) {
-                  // Swap nums[i] with nums[left]
-                  int temp = nums[left];
-                  nums[left] = nums[i];
-                  nums[i] = temp;
-                  left++;
-                  i++;
-              } else if (nums[i] == 2) {
-                  // Swap nums[i] with nums[right]
-                  int temp = nums[right];
-                  nums[right] = nums[i];
-                  nums[i] = temp;
-                  right--;
-              } else {
-                  i++;
-              }
-          }
-      }
-      ```
+### 6. Find the Smallest Missing Positive Integer
 
-These problems demonstrate various applications of the cyclic sort technique, showcasing its utility in solving array-related challenges efficiently.
+#### Problem:
+Given an unsorted integer array, find the smallest missing positive integer.
+
+#### Solution:
+```java
+public class SmallestMissingPositive {
+    public static int findSmallestMissingPositive(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return nums.length + 1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 4, -1, 1};
+        System.out.println("Smallest missing positive: " + findSmallestMissingPositive(arr)); // Output: 2
+    }
+}
+```
+
+### 7. Find All Numbers Disappeared in an Array
+
+#### Problem:
+Given an array of integers where 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice and others appear once. Find all the elements of [1, n] inclusive that do not appear in this array.
+
+#### Solution:
+```java
+import java.util.*;
+
+public class DisappearedNumbers {
+    public static List<Integer> findDisappearedNumbers(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                result.add(i + 1);
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {4, 3, 2, 7, 8, 2, 3, 1};
+        System.out.println("Disappeared numbers: " + findDisappearedNumbers(arr)); // Output: [5, 6]
+    }
+}
+```
+
+### 8. Find the Duplicate Number
+
+#### Problem:
+Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
+
+#### Solution:
+```java
+public class FindDuplicate {
+    public static int findDuplicate(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] != i + 1) {
+                if (nums[i] != nums[nums[i] - 1]) {
+                    int temp = nums[nums[i] - 1];
+                    nums[nums[i] - 1] = nums[i];
+                    nums[i] = temp;
+                } else {
+                    return nums[i];
+                }
+            } else {
+                i++;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 1, 3, 4, 2};
+        System.out.println("Duplicate number: " + findDuplicate(arr)); // Output: 3
+    }
+}
+```
+
+### 9. Find All Duplicates in an Array
+
+#### Problem:
+Given an array of integers where 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice and others appear once. Find all the elements that appear twice in this array.
+
+#### Solution:
+```java
+import java.util.*;
+
+public class FindAllDuplicates {
+    public static List<Integer> findDuplicates(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                result.add(nums[i]);
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {4, 3, 2, 7, 8, 2, 3, 1};
+        System.out.println("Duplicate numbers: " + findDuplicates(arr)); // Output: [2, 3]
+    }
+}
+```
+
+### 10. Find the First Missing Positive
+
+#### Problem:
+Given an unsorted integer array, find the smallest missing positive integer.
+
+#### Solution:
+```java
+public class FirstMissingPositive {
+    public static int firstMissingPositive(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return nums.length + 1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 4, -1, 1};
+        System.out.println("First missing positive: " + firstMissingPositive(arr)); // Output: 2
+    }
+}
+```
+
+These additional problems and solutions further illustrate the practical use of the Cyclic sort technique in solving various types of problems that involve sorting and finding missing or duplicate numbers within a constrained range.
+
+Certainly! Here are a few more questions and their solutions that use the Cyclic sort technique:
+
+### 11. Find Missing and Duplicate Numbers
+
+#### Problem:
+Given an array of integers where each integer is in the range from 1 to n, and each integer appears exactly once except one number which is missing and another number which appears twice. Find the missing and duplicate numbers.
+
+#### Solution:
+```java
+public class MissingAndDuplicate {
+    public static int[] findErrorNums(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                return new int[] {nums[i], i + 1};
+            }
+        }
+        return new int[] {-1, -1}; // This line should never be reached
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 2, 4};
+        int[] result = findErrorNums(arr);
+        System.out.println("Duplicate number: " + result[0] + ", Missing number: " + result[1]); // Output: Duplicate number: 2, Missing number: 3
+    }
+}
+```
+
+### 12. Find the Kth Smallest Missing Positive Number
+
+#### Problem:
+Given an array of integers where each integer is in the range from 1 to n and each integer appears exactly once except some integers which are missing. Find the kth smallest missing positive integer.
+
+#### Solution:
+```java
+public class KthSmallestMissing {
+    public static int findKthSmallestMissing(int[] nums, int k) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        int missingCount = 0;
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                missingCount++;
+                if (missingCount == k) {
+                    return i + 1;
+                }
+            }
+        }
+        
+        return nums.length + k - missingCount;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {2, 3, 4, 7, 11};
+        int k = 5;
+        System.out.println("Kth smallest missing number: " + findKthSmallestMissing(arr, k)); // Output: 9
+    }
+}
+```
+
+### 13. Find Missing Ranges
+
+#### Problem:
+Given a sorted integer array `nums`, where the range of elements are in the inclusive range `[lower, upper]`, return its missing ranges.
+
+#### Solution:
+```java
+import java.util.*;
+
+public class MissingRanges {
+    public static List<String> findMissingRanges(int[] nums, int lower, int upper) {
+        List<String> result = new ArrayList<>();
+        int prev = lower - 1;
+        
+        for (int i = 0; i <= nums.length; i++) {
+            int curr = (i < nums.length) ? nums[i] : upper + 1;
+            if (prev + 1 <= curr - 1) {
+                result.add(formatRange(prev + 1, curr - 1));
+            }
+            prev = curr;
+        }
+        
+        return result;
+    }
+    
+    private static String formatRange(int lower, int upper) {
+        return (lower == upper) ? String.valueOf(lower) : lower + "->" + upper;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {0, 1, 3, 50, 75};
+        int lower = 0, upper = 99;
+        System.out.println("Missing ranges: " + findMissingRanges(arr, lower, upper)); // Output: [2, 4->49, 51->74, 76->99]
+    }
+}
+```
+
+### 14. Find the First Missing Positive from an Unsorted Array
+
+#### Problem:
+Given an unsorted integer array, find the smallest missing positive integer.
+
+#### Solution:
+```java
+public class FirstMissingPositiveUnsorted {
+    public static int firstMissingPositive(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return nums.length + 1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 4, -1, 1};
+        System.out.println("First missing positive: " + firstMissingPositive(arr)); // Output: 2
+    }
+}
+```
+
+### 15. Find the Second Smallest Missing Positive Number
+
+#### Problem:
+Given an unsorted integer array, find the second smallest missing positive integer.
+
+#### Solution:
+```java
+public class SecondSmallestMissingPositive {
+    public static int findSecondSmallestMissingPositive(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        int missingCount = 0;
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                missingCount++;
+                if (missingCount == 2) {
+                    return i + 1;
+                }
+            }
+        }
+        return nums.length + 2 - missingCount;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 4, -1, 1};
+        System.out.println("Second smallest missing positive: " + findSecondSmallestMissingPositive(arr)); // Output: 5
+    }
+}
+```
+
+These additional problems and solutions further demonstrate the utility of the Cyclic sort technique for solving a variety of problems that involve finding missing or duplicate numbers within a specific range.
+
+Certainly! Here are more questions and their solutions using the Cyclic sort technique:
+
+### 16. Find All Elements Appearing More Than Once
+
+#### Problem:
+Given an array of integers where each integer appears exactly once except for one integer which appears twice. Find the integer that appears twice.
+
+#### Solution:
+```java
+import java.util.*;
+
+public class ElementsAppearingMoreThanOnce {
+    public static List<Integer> findDuplicates(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                result.add(nums[i]);
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {4, 3, 2, 7, 8, 2, 3, 1};
+        System.out.println("Duplicates: " + findDuplicates(arr)); // Output: [2, 3]
+    }
+}
+```
+
+### 17. Find the Duplicate Number in an Array
+
+#### Problem:
+Given an array of integers where each integer appears exactly once except for one integer which appears twice. Find the integer that appears twice.
+
+#### Solution:
+```java
+public class FindDuplicateNumber {
+    public static int findDuplicate(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] != i + 1) {
+                if (nums[i] != nums[nums[i] - 1]) {
+                    int temp = nums[nums[i] - 1];
+                    nums[nums[i] - 1] = nums[i];
+                    nums[i] = temp;
+                } else {
+                    return nums[i];
+                }
+            } else {
+                i++;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 3, 4, 2, 2};
+        System.out.println("Duplicate number: " + findDuplicate(arr)); // Output: 2
+    }
+}
+```
+
+### 18. Find Missing Positive in an Array
+
+#### Problem:
+Given an unsorted integer array, find the smallest missing positive integer.
+
+#### Solution:
+```java
+public class MissingPositive {
+    public static int firstMissingPositive(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return nums.length + 1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 4, -1, 1};
+        System.out.println("First missing positive: " + firstMissingPositive(arr)); // Output: 2
+    }
+}
+```
+
+### 19. Find All Numbers Disappeared in an Array
+
+#### Problem:
+Given an array of integers where 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice and others appear once. Find all the elements of [1, n] inclusive that do not appear in this array.
+
+#### Solution:
+```java
+import java.util.*;
+
+public class AllNumbersDisappeared {
+    public static List<Integer> findDisappearedNumbers(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                result.add(i + 1);
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {4, 3, 2, 7, 8, 2, 3, 1};
+        System.out.println("Disappeared numbers: " + findDisappearedNumbers(arr)); // Output: [5, 6]
+    }
+}
+```
+
+### 20. Find All Duplicates in an Array
+
+#### Problem:
+Given an array of integers where each integer appears exactly once except for one integer which appears twice. Find the integer that appears twice.
+
+#### Solution:
+```java
+import java.util.*;
+
+public class FindAllDuplicates {
+    public static List<Integer> findDuplicates(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                result.add(nums[i]);
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {4, 3, 2, 7, 8, 2, 3, 1};
+        System.out.println("Duplicates: " + findDuplicates(arr)); // Output: [2, 3]
+    }
+}
+```
+
+These additional problems and solutions further demonstrate the versatility and efficiency of the Cyclic sort technique in solving various types of problems involving missing or duplicate numbers within a specific range.
+
+
+Certainly! Here are a few more questions and their solutions using the Cyclic sort technique:
+
+### 21. Find the Kth Smallest Missing Positive Number in Unsorted Array
+
+#### Problem:
+Given an unsorted integer array, find the kth smallest missing positive integer.
+
+#### Solution:
+```java
+public class KthSmallestMissingPositive {
+    public static int findKthSmallestMissing(int[] nums, int k) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        int missingCount = 0;
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                missingCount++;
+                if (missingCount == k) {
+                    return i + 1;
+                }
+            }
+        }
+        return nums.length + k - missingCount;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 4, -1, 1};
+        int k = 2;
+        System.out.println("Kth smallest missing positive: " + findKthSmallestMissing(arr, k)); // Output: 5
+    }
+}
+```
+
+### 22. Find All Numbers Appearing More Than Twice
+
+#### Problem:
+Given an array of integers where 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice, some appear once, and some might appear more than twice. Find all elements that appear more than twice.
+
+#### Solution:
+```java
+import java.util.*;
+
+public class NumbersAppearingMoreThanTwice {
+    public static List<Integer> findNumbersAppearingMoreThanTwice(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                result.add(nums[i]);
+            }
+        }
+
+        // Remove duplicates from the result list
+        Set<Integer> unique = new HashSet<>(result);
+        result.clear();
+        result.addAll(unique);
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {4, 3, 2, 7, 8, 2, 3, 1, 3};
+        System.out.println("Numbers appearing more than twice: " + findNumbersAppearingMoreThanTwice(arr)); // Output: [3]
+    }
+}
+```
+
+### 23. Find the Largest Missing Positive Integer
+
+#### Problem:
+Given an unsorted integer array, find the largest missing positive integer less than or equal to the length of the array.
+
+#### Solution:
+```java
+public class LargestMissingPositive {
+    public static int findLargestMissingPositive(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        for (i = nums.length; i > 0; i--) {
+            if (nums[i - 1] != i) {
+                return i;
+            }
+        }
+        return nums.length + 1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 4, -1, 1};
+        System.out.println("Largest missing positive: " + findLargestMissingPositive(arr)); // Output: 2
+    }
+}
+```
+
+### 24. Find the Second Largest Missing Positive Integer
+
+#### Problem:
+Given an unsorted integer array, find the second largest missing positive integer less than or equal to the length of the array.
+
+#### Solution:
+```java
+public class SecondLargestMissingPositive {
+    public static int findSecondLargestMissingPositive(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        int missingCount = 0;
+        for (i = nums.length; i > 0; i--) {
+            if (nums[i - 1] != i) {
+                missingCount++;
+                if (missingCount == 2) {
+                    return i;
+                }
+            }
+        }
+        return nums.length + 2 - missingCount;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 4, -1, 1};
+        System.out.println("Second largest missing positive: " + findSecondLargestMissingPositive(arr)); // Output: 1
+    }
+}
+```
+
+### 25. Find the First K Missing Positive Numbers
+
+#### Problem:
+Given an unsorted integer array, find the first K missing positive integers.
+
+#### Solution:
+```java
+import java.util.*;
+
+public class FirstKMissingPositive {
+    public static List<Integer> findFirstKMissingPositive(int[] nums, int k) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            } else {
+                i++;
+            }
+        }
+
+        List<Integer> missingNumbers = new ArrayList<>();
+        Set<Integer> extraNumbers = new HashSet<>();
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                missingNumbers.add(i + 1);
+                extraNumbers.add(nums[i]);
+                if (missingNumbers.size() == k) {
+                    return missingNumbers;
+                }
+            }
+        }
+
+        // Add the remaining missing numbers
+        for (i = 1; missingNumbers.size() < k; i++) {
+            int candidateNumber = nums.length + i;
+            if (!extraNumbers.contains(candidateNumber)) {
+                missingNumbers.add(candidateNumber);
+            }
+        }
+        return missingNumbers;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 4, -1, 1};
+        int k = 3;
+        System.out.println("First K missing positives: " + findFirstKMissingPositive(arr, k)); // Output: [2, 5, 6]
+    }
+}
+```
+
+These additional problems and solutions provide further insight into how the Cyclic sort technique can be applied to a variety of scenarios involving missing or duplicate numbers within a specific range.
 
