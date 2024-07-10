@@ -16,3 +16,4 @@
 - [Fast and Slow pointers technique](notes/Patterns_for_Coding/Fast-and-Slow-pointers-technique.md)
 - [Merge Intervals technique](notes/Patterns_for_Coding/Merge-Intervals-technique.md)
 - [Cyclic sort technique](notes/Patterns_for_Coding/Cyclic-sort-technique.md)
+- [Recursion technique](notes/Patterns_for_Coding/Recursion-technique.md)
